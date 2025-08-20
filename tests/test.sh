@@ -1,14 +1,18 @@
 # Tests for personal use. They work on MacOs.
 set -e
+set -u
 
-# Simple test
-make -C ../src clean all
-rm -f outputs/*
+TEST_DIR="$(dirname "$0")"
+THIS_SCRIPT="$(basename "$0")"
 
-../src/app pictures/4kpicture.jpg outputs/4kpicture.txt
-../src/app pictures/64x64.jpg outputs/64x64.txt
-../src/app pictures/cimg.png outputs/cimg.txt
-../src/app pictures/cplusplus.png outputs/cplusplus.txt
-../src/app pictures/maxresdefault.jpg outputs/maxresdefault.txt
-../src/app pictures/mememe.jpeg outputs/mememe.txt
-#
+for testfile in "$TEST_DIR"/test*.sh; do
+    [ -f "$testfile" ] || continue
+
+    [ "$(basename "$testfile")" = "$THIS_SCRIPT" ] && continue
+
+    chmod +x "$testfile"
+    echo "================ Running: $testfile ================"
+    "$testfile"
+done
+
+echo "================ All tests finished ================="

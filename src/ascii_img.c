@@ -79,7 +79,7 @@ int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
         for (size_t x = 0; x < img->width; x++) {
             int res = putc(img->img[y * img->width + x], save_file);
             
-            if (res == EOF) { // TODO: test more save to file
+            if (res == EOF) {
                 return EOF;
             }
         }

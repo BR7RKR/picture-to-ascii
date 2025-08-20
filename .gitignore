@@ -1046,3 +1046,6 @@ dkms.conf
 
 # Run files
 app
+
+# Outputs
+tests/outputs/*
