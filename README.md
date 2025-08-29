@@ -3,7 +3,7 @@
 ## Overview
 This application creates an ASCII image from a regular image.
 
-It supports the following formats:
+It supports the following formats as an input:
 * JPEG (tested)
 * PNG (tested)
 * TGA
@@ -14,8 +14,7 @@ It supports the following formats:
 * PIC (Softimage)
 * PNM (PPM/PGM)
 
-**Input:** path to the image  
-**Output:** a TXT file with ASCII art
+More info about input and output in the flags section.
 
 ## Example ascii image
 ```bash
@@ -66,13 +65,17 @@ It supports the following formats:
 ## How to Use
 1. Install a C compiler (you may need to change `CC` in the Makefile to your compiler).
 
-2. Open your terminal, navigate to the `src` folder, and run `make` (`make` exists by default on Linux and macOS, but not on Windows).
+2. Install libjpeg-turbo (api version 3.1 is used here) and change path to the lib in the Makefile (if you have arm64 macos and you've
+installed everything from the homebrew change nothing)
 
-3. Run `./pictoascii -i path/to/picture -f output/file/path -p`.
+3. Open your terminal, navigate to the `src` folder, and run `make` (`make` exists by default on Linux and macOS, but not on Windows).
 
-4. Check the result in any text editor or in the console.
+4. Run `./pictoascii -i path/to/picture -f output/file/path -p`.
+
+5. Check the result in any text editor or in the console.
 
 **Note:** It is better to use small images (~300x300px). Images with higher resolutions may be too large for the terminal or your text editor.
+If you want to save pictures in an image format it is safe to use any resolution.
 
 ## Tests
 There is a `tests` folder containing some tests that can be launched with the `.sh` file. You can use this file to test the program.  
@@ -91,15 +94,16 @@ Prints out a help message that describes all the commands available.
 Usage: pictoascii [options]
 
 Options:
-  -h, --help               Show this help message and exit
-  -p, --print              Print output to console
-  -f, --file <path>        Save output to file at specified path
-  -i, --image <path>       Path to input image file
-  -s, --symbols <chars>    Specify custom ASCII characters for output
-  -ws, --width-scale <f>   Scale width by a float factor (e.g., 0.5)
-  -hs, --height-scale <f>  Scale height by a float factor (e.g., 0.5)
-  -l, --light              Use simple ascii characters for output
-  -r, --reverse            Reverse symbols that are used to draw the image
+  -h, --help                Show this help message and exit
+  -p, --print               Print output to console
+  -f, --file <path>         Save output to file at specified path
+  -i, --image <path>        Path to input image file
+  -s, --symbols <chars>     Specify custom ASCII characters for output
+  -ws, --width-scale <f>    Scale width by a float factor (e.g., 0.5)
+  -hs, --height-scale <f>   Scale height by a float factor (e.g., 0.5)
+  -l, --lite                Use simple ascii characters for outputm
+  -r, --reverse             Reverse symbols that are used to draw the image
+  -fl, --font-latin         Use with '-if' flag. Extends default font with latin characters
 
 Examples:
   pictoascii -p -i image.png -f output.txt
@@ -110,8 +114,18 @@ Examples:
 Prints out image to the console (ascii image).
 
 ### -f or --file
-Saves ascii image as a txt file.
-Rquires path to the file. Programm will create a file if it doesn't exist
+Saves ascii image as a file.
+Rquires path to the file. The file will be created if it doesn't exist.
+
+Supported formats:
+* JPEG
+* PNG
+* TGA
+* BMP
+* TXT
+
+**Note:** use -ws and -hs flags with 1 if you want to get the native resolution.
+**Note:** use jpeg/jpg if you want to save huge images faster (4k for example).
 
 ### -i or --image
 With this flag you must provide path to your image. This flags reades a image from the file.
@@ -125,7 +139,7 @@ Changes the width scale of the ascii image with your custom float.
 ### -hs or --height-scale
 Changes the height scale of the ascii image with your custom float.
 
-### -l or --light
+### -l or --lite
 Changes default string of the ascii symbols to its lighter version.
 
 **Note:** -s flag overrides this flag
@@ -133,7 +147,10 @@ Changes default string of the ascii symbols to its lighter version.
 ### -r or --reverse
 Use this flag if you want to reverse the ascii chars string.
 
+### -fl or --font-latin
+This flag extends basic font with latin characters. It works in pair with '-f' flag when you save as an image.
+
 ## Plans for Further Development
-* Add a compression option.  
-* Add a "save as picture" option.  
+* Improve flags handling
+* Add a compression option to compress the initial image.
 * Create a cross-platform console application.
