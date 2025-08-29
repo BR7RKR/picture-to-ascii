@@ -1,4 +1,5 @@
 #include "converter.h"
+#include "global.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,67 +7,35 @@
 
 static const int MAX_BRIGHTNESS = 255;
 
-struct Converter *Converter_create(const char *ascii_chars,
-                                   int ascii_chars_size,
-                                   float width_scale,
-                                   float height_scale)
-{
+struct ConverterConfig ConverterConfig_create(const char *ascii_chars, size_t ascii_chars_size, float width_scale, float height_scale){
+    struct ConverterConfig cfg = {0};
+    
     if (!ascii_chars) {
-        return NULL;
+        return cfg;
     }
     
     if (ascii_chars_size <= 0) {
-        return NULL;
+        return cfg;
     }
     
-    if (width_scale <= 0) {
-        return NULL;
+    if (width_scale < 0 || is_equalf(width_scale, 0)) {
+        return cfg;
     }
     
-    if (height_scale <= 0) {
-        return NULL;
+    if (height_scale < 0 || is_equalf(height_scale, 0)) {
+        return cfg;
     }
     
-    struct Converter *conv = malloc(sizeof(struct Converter));
+    cfg.ascii_chars = ascii_chars;
+    cfg.ascii_chars_size=ascii_chars_size;
+    cfg.height_scale = height_scale;
+    cfg.width_scale = width_scale;
     
-    if (!conv) {
-        return NULL;
-    }
-    
-    conv->ascii_chars = calloc(ascii_chars_size, sizeof(char));
-    
-    if (!conv->ascii_chars) {
-        Converter_free(conv);
-        return NULL;
-    }
-    
-    memcpy(conv->ascii_chars, ascii_chars, ascii_chars_size);
-    
-    conv->ascii_chars_size=ascii_chars_size;
-    conv->height_scale = height_scale;
-    conv->width_scale = width_scale;
-    
-    return conv;
+    return cfg;
 }
 
-void Converter_free(struct Converter *converter){
-    if (!converter) {
-        return;
-    }
-    
-    if (converter->ascii_chars) {
-        free(converter->ascii_chars);
-    }
-    
-    converter->ascii_chars_size = 0;
-    converter->height_scale = 0;
-    converter->width_scale = 0;
-    
-    free(converter);
-}
-
-struct AsciiImg *convert_img_to_ascii(struct Converter *conv, unsigned char *img, size_t width, size_t height){
-    if (!conv) {
+struct AsciiImg *convert_img_to_ascii(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height){
+    if (!cfg) {
         return NULL;
     }
     
@@ -82,8 +51,8 @@ struct AsciiImg *convert_img_to_ascii(struct Converter *conv, unsigned char *img
         return NULL;
     }
     
-    float width_scale = conv->width_scale;
-    float height_scale = conv->height_scale;
+    float width_scale = cfg->width_scale;
+    float height_scale = cfg->height_scale;
     size_t comp_width  = (size_t)(width * width_scale);
     size_t comp_height = (size_t)(height * height_scale);
     size_t ascii_img_size = comp_width * comp_height * 1;
@@ -103,8 +72,8 @@ struct AsciiImg *convert_img_to_ascii(struct Converter *conv, unsigned char *img
 
             size_t idx = src_y * width + src_x;
             int brightness = img[idx];
-            int symbol_index = (int)(brightness * (conv->ascii_chars_size-1) / MAX_BRIGHTNESS);
-            ascii_img[y * comp_width + x] = conv->ascii_chars[symbol_index];
+            int symbol_index = (int)(brightness * (cfg->ascii_chars_size-1) / MAX_BRIGHTNESS);
+            ascii_img[y * comp_width + x] = cfg->ascii_chars[symbol_index];
         }
     }
     
