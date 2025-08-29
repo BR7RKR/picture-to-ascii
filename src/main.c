@@ -1,3 +1,9 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+#pragma clang diagnostic pop
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -35,6 +41,7 @@ int main(int argc, char *argv[]){
     bool is_print_to_console = false;
     bool is_light = false;
     char *path_to_save = NULL;
+    char *path_to_save_img = NULL;
     char *path_to_img = NULL;
     float width_scale = 0;
     float height_scale = 0;
@@ -95,6 +102,13 @@ int main(int argc, char *argv[]){
             is_light = true;
         } else if (strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "--reverse") == 0) {
             is_reverse = true;
+        } else if (strcmp(argv[i], "-if") == 0 || strcmp(argv[i], "--image-file") == 0) {
+            if (argc <= i+1) {
+                printf("ERROR: not enough args\n");
+                return PTS_ERR_NOT_ENOUGH_ARGS;
+            }
+            
+            path_to_save_img = argv[i+1];
         }
     }
     
@@ -155,6 +169,15 @@ int main(int argc, char *argv[]){
             printf("ERROR failed to save ascii image to file\n");
         } else {
             printf("INFO: ascii image was saved successfully\n");
+        }
+    }
+    
+    if (path_to_save_img) {
+        result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img);
+        if (!result) {
+            printf("ERROR failed to save ascii image as an image\n");
+        } else {
+            printf("INFO: ascii image was saved successfully as an image\n");
         }
     }
     

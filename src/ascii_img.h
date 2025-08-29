@@ -13,3 +13,4 @@ void AsciiImg_free(struct AsciiImg *img);
 
 void AsciiImg_print(struct AsciiImg *img);
 int AsciiImg_save_to_file(struct AsciiImg *img, const char* path);
+int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path);
