@@ -1,7 +1,6 @@
 #include "global.h"
 #include "ascii_img.h"
 #include "stb_image_write.h"
-#include "font8x8_basic.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -100,16 +99,14 @@ int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
     return 0;
 }
 
-int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path){
+int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){
     if (!img) {
         return -1;
     }
     
     const int channels = 1; // grey
-    const size_t font_w = 8;
-    const size_t font_h = 8;
-    const size_t img_w = img->width * font_w;
-    const size_t img_h = img->height * font_h;
+    const size_t img_w = img->width * font->symbol_width;
+    const size_t img_h = img->height * font->symbol_height;
     unsigned char *pixels = calloc(img_w * img_h, channels);
     
     if (!pixels) {
@@ -119,14 +116,14 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path){
     for (size_t y = 0; y < img->height; y++) {
         for (size_t x = 0; x < img->width; x++) {
             unsigned char c = (unsigned char)img->img[y * img->width + x];
-            unsigned char *glyph = (unsigned char *)font8x8_basic[c]; // TODO: try to convert all symbols into an array of brightness
+            unsigned char *glyph = (unsigned char *)font->map[c]; // TODO: try to convert all symbols into an array of brightness
             
-            for (size_t gy = 0; gy < font_h; gy++) {
-                for (size_t gx = 0; gx < font_w; gx++) {
+            for (size_t gy = 0; gy < font->symbol_height; gy++) {
+                for (size_t gx = 0; gx < font->symbol_width; gx++) {
                     int bit = (glyph[gy] >> gx) & 1; // move by gx bits and take the bit from the right position
                     if (bit) {
-                        size_t px = x * font_w + gx;
-                        size_t py = y * font_h + gy;
+                        size_t px = x * font->symbol_width + gx;
+                        size_t py = y * font->symbol_height + gy;
                         pixels[py * img_w + px] = MAX_BRIGHTNESS;
                     }
                 }
@@ -134,7 +131,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path){
         }
     }
     
-    int res = stbi_write_png(path, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
+    int res = stbi_write_png(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
     
     free(pixels);
     

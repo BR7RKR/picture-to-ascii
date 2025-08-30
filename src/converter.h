@@ -9,7 +9,6 @@ struct ConverterConfig{
     float height_scale;
 };
 
-
 struct ConverterConfig ConverterConfig_create(const char *ascii_chars, size_t ascii_chars_size, float width_scale, float height_scale);
 
-struct AsciiImg *convert_img_to_ascii(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height);
+struct AsciiImg *convert_img_to_ascii(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height); // TODO: try move to ascii_img

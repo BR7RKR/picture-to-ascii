@@ -10,6 +10,7 @@
 #include "converter.h"
 #include "global.h"
 #include "compcodes.h"
+#include "font8x8_basic.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,6 +28,16 @@ int main(int argc, char *argv[]){
         printf("Use --help or -h flag to get more information\n");
         return PTS_ERR_NOT_ENOUGH_ARGS;
     }
+    
+    // TODO: Create Font_create method
+    struct Font default_font = {NULL, 128, 8, 8};
+
+    default_font.map = malloc(default_font.symbols_count * sizeof(char*));
+
+    for (size_t i = 0; i < default_font.symbols_count; i++) {
+        default_font.map[i] = font8x8_basic[i];
+    }
+    //
     
     const char *default_ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,\"^`'. "; // it is array not a string
     const size_t default_ascii_chars_size = strlen(default_ascii_chars)-1;
@@ -175,7 +186,7 @@ int main(int argc, char *argv[]){
     }
     
     if (path_to_save_img) {
-        result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img);
+        result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img, &default_font);
         if (result != 0) {
             printf("ERROR failed to save ascii image as an image\n");
         } else {
@@ -186,6 +197,7 @@ int main(int argc, char *argv[]){
     stbi_image_free(img);
     AsciiImg_free(ascii_img);
     free(temp_ascii_chars);
+    free(default_font.map);
     
     if (result != PTS_OK) {
         return PTS_ERR_SAVE_TXT;
