@@ -12,7 +12,7 @@ echo "Test 1"
 ../src/pictoascii -p -i pictures/4kpicture.jpg -f outputs/Lite/4kpicture.txt -l
 
 echo "Test 2"
-../src/pictoascii -p -i pictures/64x64.jpg -f outputs/Lite/64x64.txt -p -l
+../src/pictoascii -p -i pictures/64x64.jpg -f outputs/Lite/64x64.txt -p --lite
 
 echo "Test 3"
 ../src/pictoascii --print --image pictures/cimg.png --file outputs/Lite/cimg.txt -l

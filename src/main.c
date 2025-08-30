@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
             }
 
             path_to_img = argv[i+1];
-        } else if (strcmp(argv[i], "-l") == 0 || strcmp(argv[i], "--light") == 0) {
+        } else if (strcmp(argv[i], "-l") == 0 || strcmp(argv[i], "--lite") == 0) {
             is_light = true;
         } else if (strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "--reverse") == 0) {
             is_reverse = true;
@@ -131,8 +131,10 @@ int main(int argc, char *argv[]){
         }
     }
     
+    char *temp_ascii_chars = NULL;
     if (is_reverse) {
-        ascii_chars = str_rev(ascii_chars);
+        temp_ascii_chars = str_rev(ascii_chars);
+        ascii_chars = temp_ascii_chars;
     }
     
     struct ConverterConfig cfg = ConverterConfig_create(ascii_chars, ascii_chars_size, width_scale, height_scale);
@@ -174,20 +176,16 @@ int main(int argc, char *argv[]){
     
     if (path_to_save_img) {
         result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img);
-        if (!result) {
+        if (result != 0) {
             printf("ERROR failed to save ascii image as an image\n");
         } else {
             printf("INFO: ascii image was saved successfully as an image\n");
         }
     }
     
-    if (img) {
-        stbi_image_free(img);
-    }
-    
-    if (ascii_img) {
-        AsciiImg_free(ascii_img);
-    }
+    stbi_image_free(img);
+    AsciiImg_free(ascii_img);
+    free(temp_ascii_chars);
     
     if (result != PTS_OK) {
         return PTS_ERR_SAVE_TXT;
@@ -198,7 +196,7 @@ int main(int argc, char *argv[]){
 
 char* str_rev(const char *in_str) {
     size_t len = strlen(in_str);
-    char *out_str = malloc(len + 1); // +1 for '\0'
+    char *out_str = calloc(len + 1, sizeof(char)); // +1 for '\0'
     if (!out_str) {
         return NULL;
     }
@@ -214,15 +212,17 @@ char* str_rev(const char *in_str) {
 void print_help(void){
     printf("Usage: pictoascii [options]\n\n");
     printf("Options:\n");
-    printf("  -h, --help               Show this help message and exit\n");
-    printf("  -p, --print              Print output to console\n");
-    printf("  -f, --file <path>        Save output to file at specified path\n");
-    printf("  -i, --image <path>       Path to input image file\n");
-    printf("  -s, --symbols <chars>    Specify custom ASCII characters for output\n");
-    printf("  -ws, --width-scale <f>   Scale width by a float factor (e.g., 0.5)\n");
-    printf("  -hs, --height-scale <f>  Scale height by a float factor (e.g., 0.5)\n");
-    printf("  -l, --light              Use simple ascii characters for outputm\n");
-    printf("  -r, --reverse            Reverse symbols that are used to draw the image\n\n");
+    printf("  -h, --help                Show this help message and exit\n");
+    printf("  -p, --print               Print output to console\n");
+    printf("  -f, --file <path>         Save output to file at specified path\n");
+    printf("  -i, --image <path>        Path to input image file\n");
+    printf("  -s, --symbols <chars>     Specify custom ASCII characters for output\n");
+    printf("  -ws, --width-scale <f>    Scale width by a float factor (e.g., 0.5)\n");
+    printf("  -hs, --height-scale <f>   Scale height by a float factor (e.g., 0.5)\n");
+    printf("  -l, --lite                Use simple ascii characters for outputm\n");
+    printf("  -r, --reverse             Reverse symbols that are used to draw the image\n");
+    printf("  -if, --image-file <path>  Save output to file at specified path as an image\n");
+    printf("\n");
     printf("Examples:\n");
     printf("  pictoascii -p -i image.png -f output.txt\n");
     printf("  pictoascii --image image.png --lite -p\n");

@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const int MAX_BRIGHTNESS = 255;
-
 struct ConverterConfig ConverterConfig_create(const char *ascii_chars, size_t ascii_chars_size, float width_scale, float height_scale){
     struct ConverterConfig cfg = {0};
     
@@ -79,9 +77,6 @@ struct AsciiImg *convert_img_to_ascii(struct ConverterConfig *cfg, unsigned char
     
     struct AsciiImg *ascii = AsciiImg_create(ascii_img, comp_width, comp_height);
     
-    if (ascii_img) {
-        free(ascii_img);
-    }
-    
+    free(ascii_img);
     return ascii;
 }

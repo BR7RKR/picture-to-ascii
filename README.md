@@ -91,15 +91,16 @@ Prints out a help message that describes all the commands available.
 Usage: pictoascii [options]
 
 Options:
-  -h, --help               Show this help message and exit
-  -p, --print              Print output to console
-  -f, --file <path>        Save output to file at specified path
-  -i, --image <path>       Path to input image file
-  -s, --symbols <chars>    Specify custom ASCII characters for output
-  -ws, --width-scale <f>   Scale width by a float factor (e.g., 0.5)
-  -hs, --height-scale <f>  Scale height by a float factor (e.g., 0.5)
-  -l, --light              Use simple ascii characters for output
-  -r, --reverse            Reverse symbols that are used to draw the image
+  -h, --help                Show this help message and exit
+  -p, --print               Print output to console
+  -f, --file <path>         Save output to file at specified path
+  -i, --image <path>        Path to input image file
+  -s, --symbols <chars>     Specify custom ASCII characters for output
+  -ws, --width-scale <f>    Scale width by a float factor (e.g., 0.5)
+  -hs, --height-scale <f>   Scale height by a float factor (e.g., 0.5)
+  -l, --lite                Use simple ascii characters for output
+  -r, --reverse             Reverse symbols that are used to draw the image
+  -if, --image-file <path>  Save output to file at specified path as an image
 
 Examples:
   pictoascii -p -i image.png -f output.txt
@@ -125,7 +126,7 @@ Changes the width scale of the ascii image with your custom float.
 ### -hs or --height-scale
 Changes the height scale of the ascii image with your custom float.
 
-### -l or --light
+### -l or --lite
 Changes default string of the ascii symbols to its lighter version.
 
 **Note:** -s flag overrides this flag
@@ -133,7 +134,12 @@ Changes default string of the ascii symbols to its lighter version.
 ### -r or --reverse
 Use this flag if you want to reverse the ascii chars string.
 
+### -if or --image-file
+Use this flag to save your ascii art as an image file. You must provide a path to the file. The file will be created if it doesn't exist.
+
+**Note:** use -ws and -hs flags with 1 if you want to get the native resolution.
+
 ## Plans for Further Development
-* Add a compression option.  
-* Add a "save as picture" option.  
+* Add a compression option.
+* Add a "save as picture" option. (in progress)
 * Create a cross-platform console application.

@@ -1,10 +1,10 @@
 #include "global.h"
 #include "ascii_img.h"
 #include "stb_image_write.h"
+#include "font8x8_basic.h"
 
 #include <stdlib.h>
 #include <string.h>
-#include "font8x8_basic.h"
 
 struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height){
     if (!data) {
@@ -127,18 +127,20 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path){
                     if (bit) {
                         size_t px = x * font_w + gx;
                         size_t py = y * font_h + gy;
-                        pixels[py * img_w + px] = 255;
+                        pixels[py * img_w + px] = MAX_BRIGHTNESS;
                     }
                 }
             }
         }
     }
     
-    int res = stbi_write_png(path, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels); // TODO: make it save to other types (jpg, jpeg)
+    int res = stbi_write_png(path, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
     
-    if (pixels) {
-        free(pixels);
+    free(pixels);
+    
+    if (!res) {
+        return -3;
     }
     
-    return res;
+    return 0;
 }
