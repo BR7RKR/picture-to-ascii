@@ -7,7 +7,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "converter.h"
+#include "converter_cfg.h"
 #include "global.h"
 #include "compcodes.h"
 #include "ascii_img.h"

@@ -180,11 +180,41 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
         }
     }
     
-    int res = stbi_write_png(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
+    FileType fileType = get_file_extension(path_to_image);
+    
+    int res = 0;
+    switch (fileType) {
+        case FILE_JPEG:
+            res =stbi_write_jpg(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels); // TODO: TEST
+            break;
+            
+        case FILE_PNG:
+            res = stbi_write_png(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
+            break;
+            
+        case FILE_TGA:
+            res = stbi_write_tga(path_to_image, (int)img_w, (int)img_h, channels, pixels); // TODO: TEST
+            break;
+            
+        case FILE_BMP:
+            res = stbi_write_bmp(path_to_image, (int)img_w, (int)img_h, channels, pixels); // TODO: TEST
+            break;
+            
+        case FILE_PSD:
+        case FILE_GIF:
+        case FILE_HDR:
+        case FILE_PIC:
+        case FILE_PNM:
+        case FILE_TXT:
+        case FILE_NAF:
+        default:
+            res = -3;
+            break;
+    }
     
     free(pixels);
     
-    if (!res) {
+    if (!res || res == -3) {
         return -3;
     }
     

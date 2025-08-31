@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-#include "converter.h"
+#include "converter_cfg.h"
 
 struct AsciiImg{
     char *img;

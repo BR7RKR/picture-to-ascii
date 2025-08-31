@@ -1,4 +1,4 @@
-#include "converter.h"
+#include "converter_cfg.h"
 #include "global.h"
 
 struct ConverterConfig ConverterConfig_create(const char *ascii_chars, size_t ascii_chars_size, float width_scale, float height_scale){
