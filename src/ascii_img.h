@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include "converter.h"
 
 struct AsciiImg{
     char *img;
@@ -16,6 +17,7 @@ struct Font{
 };
 
 struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height);
+struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height);
 void AsciiImg_free(struct AsciiImg *img);
 
 void AsciiImg_print(struct AsciiImg *img);

@@ -38,6 +38,55 @@ struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height){
     return ascii_img;
 }
 
+struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height){
+    if (!cfg) {
+        return NULL;
+    }
+    
+    if (!img) {
+        return NULL;
+    }
+    
+    if (width <= 0) {
+        return NULL;
+    }
+    
+    if (height <= 0) {
+        return NULL;
+    }
+    
+    float width_scale = cfg->width_scale;
+    float height_scale = cfg->height_scale;
+    size_t comp_width  = (size_t)(width * width_scale);
+    size_t comp_height = (size_t)(height * height_scale);
+    size_t ascii_img_size = comp_width * comp_height * 1;
+    char *ascii_img = calloc(ascii_img_size, sizeof(char));
+    
+    if (!ascii_img) {
+        return NULL;
+    }
+
+    for (size_t y = 0; y < comp_height; y++) {
+        for (size_t x = 0; x < comp_width; x++) {
+            size_t src_x = (size_t)(x * ((float)width / comp_width));
+            if (src_x >= width) src_x = width - 1;
+
+            size_t src_y = (size_t)(y * ((float)height / comp_height));
+            if (src_y >= height) src_y = height - 1;
+
+            size_t idx = src_y * width + src_x;
+            int brightness = img[idx];
+            int symbol_index = (int)(brightness * (cfg->ascii_chars_size-1) / MAX_BRIGHTNESS);
+            ascii_img[y * comp_width + x] = cfg->ascii_chars[symbol_index];
+        }
+    }
+    
+    struct AsciiImg *ascii = AsciiImg_create(ascii_img, comp_width, comp_height);
+    
+    free(ascii_img);
+    return ascii;
+}
+
 void AsciiImg_free(struct AsciiImg *img){
     if (!img) {
         return;

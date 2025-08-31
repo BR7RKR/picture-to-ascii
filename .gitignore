@@ -1045,7 +1045,7 @@ dkms.conf
 *.dis
 
 # Run files
-app
+pictoascii
 
 # Outputs
 tests/outputs/*

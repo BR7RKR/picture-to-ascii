@@ -10,6 +10,7 @@
 #include "converter.h"
 #include "global.h"
 #include "compcodes.h"
+#include "ascii_img.h"
 #include "font8x8_basic.h"
 
 #include <stdio.h>
@@ -163,7 +164,7 @@ int main(int argc, char *argv[]){
         return PTS_ERR_IMG_READ;
     }
     
-    struct AsciiImg *ascii_img = convert_img_to_ascii(&cfg, img, img_width, img_height);
+    struct AsciiImg *ascii_img = AsciiImg_create_from_img(&cfg, img, img_width, img_height);
     
     if (!ascii_img) {
         printf("ERROR: Failed to convert picture to ascii image\n");
