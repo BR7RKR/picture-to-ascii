@@ -1,5 +1,5 @@
-CC = CC
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CC = gcc-15
+CFLAGS = -Wall -Wextra -Werror -fopenmp -g # -fsanitize=address clang only
 TARGET = pictoascii
 LIBSDIR = libs
 

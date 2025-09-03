@@ -1,8 +1,8 @@
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
-#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

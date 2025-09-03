@@ -66,6 +66,7 @@ struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned 
         return NULL;
     }
 
+    #pragma omp parallel for schedule(static)
     for (size_t y = 0; y < comp_height; y++) {
         for (size_t x = 0; x < comp_width; x++) {
             size_t src_x = (size_t)(x * ((float)width / comp_width));
@@ -148,7 +149,7 @@ int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
     return 0;
 }
 
-int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){
+int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){ // try threading
     if (!img) {
         return -1;
     }
@@ -161,7 +162,8 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     if (!pixels) {
         return -2;
     }
-    
+     
+    #pragma omp parallel for schedule(static)
     for (size_t y = 0; y < img->height; y++) {
         for (size_t x = 0; x < img->width; x++) {
             unsigned char c = (unsigned char)img->img[y * img->width + x];
@@ -179,7 +181,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
             }
         }
     }
-    
+
     FileType fileType = get_file_extension(path_to_image);
     
     int res = 0;
@@ -211,6 +213,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
             res = -3;
             break;
     }
+
     
     free(pixels);
     
