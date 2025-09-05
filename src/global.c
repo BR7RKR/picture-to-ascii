@@ -43,26 +43,6 @@ FileType get_file_extension(const char *path_to_file){
         return FILE_BMP;
     }
     
-    if (strcmp(ext, "gif") == 0) {
-        return FILE_GIF;
-    }
-    
-    if (strcmp(ext, "psd") == 0) {
-        return FILE_PSD;
-    }
-    
-    if (strcmp(ext, "hdr") == 0) {
-        return FILE_HDR;
-    }
-    
-    if (strcmp(ext, "pic") == 0) {
-        return FILE_PIC;
-    }
-    
-    if (strcmp(ext, "ph") == 0) {
-        return FILE_PNM;
-    }
-    
     return FILE_NAF;
 }
 

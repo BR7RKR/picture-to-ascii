@@ -149,7 +149,7 @@ int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
     return 0;
 }
 
-int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){ // try threading
+int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){
     if (!img) {
         return -1;
     }
@@ -187,7 +187,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     int res = 0;
     switch (fileType) {
         case FILE_JPEG:
-            res =stbi_write_jpg(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels); // TODO: TEST
+            res = stbi_write_jpg(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
             break;
             
         case FILE_PNG:
@@ -195,18 +195,13 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
             break;
             
         case FILE_TGA:
-            res = stbi_write_tga(path_to_image, (int)img_w, (int)img_h, channels, pixels); // TODO: TEST
+            res = stbi_write_tga(path_to_image, (int)img_w, (int)img_h, channels, pixels);
             break;
             
         case FILE_BMP:
-            res = stbi_write_bmp(path_to_image, (int)img_w, (int)img_h, channels, pixels); // TODO: TEST
+            res = stbi_write_bmp(path_to_image, (int)img_w, (int)img_h, channels, pixels);
             break;
-            
-        case FILE_PSD:
-        case FILE_GIF:
-        case FILE_HDR:
-        case FILE_PIC:
-        case FILE_PNM:
+        
         case FILE_TXT:
         case FILE_NAF:
         default:

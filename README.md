@@ -137,6 +137,12 @@ Use this flag if you want to reverse the ascii chars string.
 ### -if or --image-file
 Use this flag to save your ascii art as an image file. You must provide a path to the file. The file will be created if it doesn't exist.
 
+Supported formats:
+* JPEG
+* PNG
+* TGA
+* BMP
+
 **Note:** use -ws and -hs flags with 1 if you want to get the native resolution.
 
 ## Plans for Further Development
