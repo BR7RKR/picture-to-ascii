@@ -121,13 +121,13 @@ void AsciiImg_print(struct AsciiImg *img){
 
 int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
     if (!img) {
-        return -1;
+        return ASCII_IMG_ERR_NULL;
     }
     
     FILE *save_file = fopen(path, "wb");
     
     if (!save_file) {
-        return -3;
+        return ASCII_IMG_ERR_FILE_FOPEN;
     }
     
     for (size_t y = 0; y < img->height; y++) {
@@ -149,12 +149,12 @@ int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
         return fclose(save_file);
     }
     
-    return 0;
+    return ASCII_IMG_OK;
 }
 
 int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){
     if (!img) {
-        return -1;
+        return ASCII_IMG_ERR_NULL;
     }
     
     const int channels = 1; // grey
@@ -163,7 +163,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     unsigned char *pixels = calloc(img_w * img_h, channels);
     
     if (!pixels) {
-        return -2;
+        return ASCII_IMG_ERR_ALLOC;
     }
      
     #pragma omp parallel for schedule(static)
@@ -187,7 +187,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
 
     FileType fileType = get_file_extension(path_to_image);
     
-    int res = 0;
+    int res = ASCII_IMG_OK;
     switch (fileType) {
         case FILE_JPEG:
             res = write_gray_jpg(path_to_image, (int)img_w, (int)img_h, pixels);
@@ -208,32 +208,32 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
         case FILE_TXT:
         case FILE_NAF:
         default:
-            res = -3;
+            res = ASCII_IMG_ERR_FILE_SAVE;
             break;
     }
 
     
     free(pixels);
     
-    if (!res || res == -3) {
-        return -3;
+    if (!res || res == ASCII_IMG_ERR_FILE_SAVE) {
+        return ASCII_IMG_ERR_FILE_SAVE;
     }
     
-    return 0;
+    return ASCII_IMG_OK;
 }
 
 int write_gray_jpg(const char *path, int width, int height, unsigned char *buffer){
     tjhandle handle = tjInitCompress();
     if (!handle) {
-        return 0;
+        return ASCII_IMG_ERR;
     }
     
     int result = tj3SaveImage8(handle, path, buffer, width, 0, height, TJPF_GRAY);
     
     tjDestroy(handle);
     if (result == 0) {
-        return 1;
+        return ASCII_IMG_OK_TURBO_JPEG;
     }
     
-    return -3;
+    return ASCII_IMG_ERR_FILE_SAVE;
 }

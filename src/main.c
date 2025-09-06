@@ -80,9 +80,9 @@ int main(int argc, char *argv[]){
             }
             
             int result = float_parse(argv[i+1], &width_scale);
-            if (result != 0) {
+            if (result == PTS_ERR_FLOAT_PARSE) {
                 printf("ERROR: failed to parse float\n");
-                return PTS_ERR_FLOAT_PARSE;
+                return result;
             }
         } else if (strcmp(argv[i], "-hs") == 0 || strcmp(argv[i], "--height-scale") == 0) {
             if (argc <= i+1) {
@@ -91,9 +91,9 @@ int main(int argc, char *argv[]){
             }
             
             int result = float_parse(argv[i+1], &height_scale);
-            if (result != 0) {
+            if (result == PTS_ERR_FLOAT_PARSE) {
                 printf("ERROR: failed to parse float\n");
-                return PTS_ERR_FLOAT_PARSE;
+                return result;
             }
         } else if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--symbols") == 0) {
             if (argc <= i+1) {
@@ -179,7 +179,7 @@ int main(int argc, char *argv[]){
     int result = PTS_OK;
     if (path_to_save) {
         result = AsciiImg_save_to_file(ascii_img, path_to_save);
-        if (result != 0) {
+        if (result != ASCII_IMG_OK) {
             printf("ERROR failed to save ascii image to file\n");
         } else {
             printf("INFO: ascii image was saved successfully\n");
@@ -188,7 +188,7 @@ int main(int argc, char *argv[]){
     
     if (path_to_save_img) {
         result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img, &default_font);
-        if (result != 0) {
+        if (result != ASCII_IMG_OK) {
             printf("ERROR failed to save ascii image as an image\n");
         } else {
             printf("INFO: ascii image was saved successfully as an image\n");
@@ -247,17 +247,17 @@ int float_parse(const char *str, float *out_value){
     *out_value = 0;
     
     if (errno == ERANGE) {
-        return errno;
+        return PTS_ERR_FLOAT_PARSE;
     }
     
     if (is_equalf(number, 0.0f)) {
-        return -10;
+        return PTS_ERR_FLOAT_PARSE;
     }
     
     if (number < 0.0f) {
-        return -32;
+        return PTS_ERR_FLOAT_PARSE;
     }
     
     *out_value = number;
-    return 0;
+    return PTS_OK;
 }
