@@ -10,7 +10,7 @@ make -C ../src clean all
 rm -f outputs/ToImageFile/*
 
 echo "Test 1"
-../src/pictoascii -i pictures/4kpicture.jpg -l -if outputs/ToImageFile/4kpicture1.png
+../src/pictoascii -i pictures/4kpicture.jpg -l -if outputs/ToImageFile/4kpicture1.jpg
 
 echo "Test 2"
 ../src/pictoascii -i pictures/64x64.jpg -l -if outputs/ToImageFile/64x642.png

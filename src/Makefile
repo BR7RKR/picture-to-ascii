@@ -4,7 +4,9 @@ TARGET = pictoascii
 LIBSDIR = libs
 
 INCDIRS := $(shell find $(LIBSDIR) -type d)
-INCFLAGS := $(patsubst %,-I%,$(INCDIRS))
+INCFLAGS := $(patsubst %,-I%,$(INCDIRS)) -I/opt/homebrew/include
+
+LDFLAGS = -L/opt/homebrew/lib -lturbojpeg
 
 SRCS = $(shell find . -name '*.c')
 OBJS = $(SRCS:.c=.o)
@@ -12,7 +14,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(INCFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
 %.o: %.c
 	@echo "Compiling the app: $<"

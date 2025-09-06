@@ -66,13 +66,17 @@ It supports the following formats:
 ## How to Use
 1. Install a C compiler (you may need to change `CC` in the Makefile to your compiler).
 
-2. Open your terminal, navigate to the `src` folder, and run `make` (`make` exists by default on Linux and macOS, but not on Windows).
+2. Install libjpeg-turbo (api version 3.1 is used here) and change path to the lib in the Makefile (if you have arm64 macos and you've
+installed everything from the homebrew change nothing)
 
-3. Run `./pictoascii -i path/to/picture -f output/file/path -p`.
+3. Open your terminal, navigate to the `src` folder, and run `make` (`make` exists by default on Linux and macOS, but not on Windows).
 
-4. Check the result in any text editor or in the console.
+4. Run `./pictoascii -i path/to/picture -f output/file/path -p`.
+
+5. Check the result in any text editor or in the console.
 
 **Note:** It is better to use small images (~300x300px). Images with higher resolutions may be too large for the terminal or your text editor.
+If you want to save pictures in an image format it is safe to use any resolution.
 
 ## Tests
 There is a `tests` folder containing some tests that can be launched with the `.sh` file. You can use this file to test the program.  
@@ -144,6 +148,7 @@ Supported formats:
 * BMP
 
 **Note:** use -ws and -hs flags with 1 if you want to get the native resolution.
+**Note:** use jpeg if you want to save huge images faster (4k for example).
 
 ## Plans for Further Development
 * Add a compression option.

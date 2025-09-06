@@ -4,6 +4,9 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <turbojpeg.h>
+
+int write_gray_jpg(const char *path, int width, int height, unsigned char *buffer);
 
 struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height){
     if (!data) {
@@ -187,7 +190,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     int res = 0;
     switch (fileType) {
         case FILE_JPEG:
-            res = stbi_write_jpg(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
+            res = write_gray_jpg(path_to_image, (int)img_w, (int)img_h, pixels);
             break;
             
         case FILE_PNG:
@@ -217,4 +220,20 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     }
     
     return 0;
+}
+
+int write_gray_jpg(const char *path, int width, int height, unsigned char *buffer){
+    tjhandle handle = tjInitCompress();
+    if (!handle) {
+        return 0;
+    }
+    
+    int result = tj3SaveImage8(handle, path, buffer, width, 0, height, TJPF_GRAY);
+    
+    tjDestroy(handle);
+    if (result == 0) {
+        return 1;
+    }
+    
+    return -3;
 }
