@@ -102,9 +102,10 @@ Options:
   -s, --symbols <chars>     Specify custom ASCII characters for output
   -ws, --width-scale <f>    Scale width by a float factor (e.g., 0.5)
   -hs, --height-scale <f>   Scale height by a float factor (e.g., 0.5)
-  -l, --lite                Use simple ascii characters for output
+  -l, --lite                Use simple ascii characters for outputm
   -r, --reverse             Reverse symbols that are used to draw the image
   -if, --image-file <path>  Save output to file at specified path as an image
+  -fl, --font-latin         Use with '-if' flag. Extends default font with latin characters
 
 Examples:
   pictoascii -p -i image.png -f output.txt
@@ -149,6 +150,9 @@ Supported formats:
 
 **Note:** use -ws and -hs flags with 1 if you want to get the native resolution.
 **Note:** use jpeg if you want to save huge images faster (4k for example).
+
+### -fl or --font-latin
+Works only with '-if' flag. This flag extends basic font with latin characters.
 
 ## Plans for Further Development
 * Add a compression option.

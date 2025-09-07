@@ -1,7 +1,8 @@
 #pragma once
+#include "converter_cfg.h"
+#include "font.h"
 
 #include <stdio.h>
-#include "converter_cfg.h"
 
 typedef enum{
     ASCII_IMG_OK = 0,
@@ -18,13 +19,6 @@ struct AsciiImg{
     char *img;
     size_t height;
     size_t width;
-};
-
-struct Font{
-    char **map;
-    size_t symbols_count;
-    size_t symbol_width;
-    size_t symbol_height;
 };
 
 struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height);

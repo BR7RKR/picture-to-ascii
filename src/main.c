@@ -11,7 +11,6 @@
 #include "global.h"
 #include "compcodes.h"
 #include "ascii_img.h"
-#include "font8x8_basic.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,15 +29,7 @@ int main(int argc, char *argv[]){
         return PTS_ERR_NOT_ENOUGH_ARGS;
     }
     
-    // TODO: Create Font_create method
-    struct Font default_font = {NULL, 128, 8, 8};
-
-    default_font.map = malloc(default_font.symbols_count * sizeof(char*));
-
-    for (size_t i = 0; i < default_font.symbols_count; i++) {
-        default_font.map[i] = font8x8_basic[i];
-    }
-    //
+    struct Font *font = NULL;
     
     const char *default_ascii_chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,\"^`'. "; // it is array not a string
     const size_t default_ascii_chars_size = strlen(default_ascii_chars)-1;
@@ -49,6 +40,7 @@ int main(int argc, char *argv[]){
     const float default_width_scale = 0.6f;
     const float default_height_scale = 0.3f;
     
+    bool is_latin_font = false;
     bool is_reverse = false;
     bool is_print_to_console = false;
     bool is_light = false;
@@ -121,6 +113,8 @@ int main(int argc, char *argv[]){
             }
             
             path_to_save_img = argv[i+1];
+        } else if (strcmp(argv[i], "-fl") == 0 || strcmp(argv[i], "--font-latin") == 0) {
+            is_latin_font = true;
         }
     }
     
@@ -187,7 +181,8 @@ int main(int argc, char *argv[]){
     }
     
     if (path_to_save_img) {
-        result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img, &default_font);
+        font = is_latin_font ? Font_create_font8x8_latin() : Font_create_font8x8_basic();
+        result = AsciiImg_save_to_file_image(ascii_img, path_to_save_img, font);
         if (result != ASCII_IMG_OK) {
             printf("ERROR failed to save ascii image as an image\n");
         } else {
@@ -198,7 +193,7 @@ int main(int argc, char *argv[]){
     stbi_image_free(img);
     AsciiImg_free(ascii_img);
     free(temp_ascii_chars);
-    free(default_font.map);
+    Font_free(font);
     
     if (result != PTS_OK) {
         return PTS_ERR_SAVE_TXT;
@@ -235,6 +230,7 @@ void print_help(void){
     printf("  -l, --lite                Use simple ascii characters for outputm\n");
     printf("  -r, --reverse             Reverse symbols that are used to draw the image\n");
     printf("  -if, --image-file <path>  Save output to file at specified path as an image\n");
+    printf("  -fl, --font-latin         Use with \'-if\' flag. Extends default font with latin characters\n");
     printf("\n");
     printf("Examples:\n");
     printf("  pictoascii -p -i image.png -f output.txt\n");

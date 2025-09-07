@@ -1,5 +1,11 @@
 CC = gcc-15
-CFLAGS = -Wall -Wextra -Werror -fopenmp -g # -fsanitize=address clang only
+CFLAGS = -Wall -Wextra -Werror -fopenmp -g
+
+################### For memory leak tests #################
+#CC = CC
+#CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+###########################################################
+
 TARGET = pictoascii
 LIBSDIR = libs
 

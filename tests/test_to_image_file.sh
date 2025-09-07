@@ -48,6 +48,12 @@ echo "Test 12"
 echo "Test 13"
 ../src/pictoascii -i pictures/64x64.jpg -l -if outputs/ToImageFile/64x6413.png -ws 1 -hs 1 -r
 
+echo "Test 14"
+../src/pictoascii -i pictures/4kpicture.jpg --font-latin -if outputs/ToImageFile/4kpicture_latin.jpg -s " \`'.,-~:;!lI+_?^\"/|(){}[]tfjrxnuvczXYUJCLQ0OZáàâäåãæçéèêëíìîïñóòôöõøúùûüý*#MW&8%B@$"
+
+echo "Test 15: without proper font"
+../src/pictoascii -i pictures/4kpicture.jpg -if outputs/ToImageFile/4kpicture_latin_15.jpg -s " \`'.,-~:;!lI+_?^\"/|(){}[]tfjrxnuvczXYUJCLQ0OZáàâäåãæçéèêëíìîïñóòôöõøúùûüý*#MW&8%B@$"
+
 echo "Clean"
 make -C ../src clean
 echo "========================= TEST TO IMAGE FILE END ==================================="
