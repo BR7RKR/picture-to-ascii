@@ -1,6 +1,8 @@
 #pragma once
 #include <stdbool.h>
 
+#include "logger.h"
+
 typedef enum {
     FILE_NAF = 0,   // Not a file
     
@@ -15,4 +17,4 @@ extern const int MAX_BRIGHTNESS;
 
 bool is_equalf(float first, float second);
 
-FileType get_file_extension(const char *path_to_file);
+FileType get_file_extension(const char *restrict path_to_file);

@@ -2,8 +2,6 @@
 #include "converter_cfg.h"
 #include "font.h"
 
-#include <stdio.h>
-
 typedef enum{
     ASCII_IMG_OK = 0,
     ASCII_IMG_OK_TURBO_JPEG = 1,
@@ -21,10 +19,10 @@ struct AsciiImg{
     size_t width;
 };
 
-struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height);
-struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height);
-void AsciiImg_free(struct AsciiImg *img);
+struct AsciiImg *AsciiImg_create(const char *restrict data, size_t width, size_t height);
+struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *restrict cfg, unsigned char *restrict img, size_t width, size_t height);
+void AsciiImg_free(struct AsciiImg *restrict img);
 
-void AsciiImg_print(struct AsciiImg *img);
-int AsciiImg_save_to_file(struct AsciiImg *img, const char* path);
-int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path, struct Font *font);
+void AsciiImg_print(struct AsciiImg *restrict img);
+int AsciiImg_save_to_file(struct AsciiImg *restrict img, const char *restrict path);
+int AsciiImg_save_to_file_image(struct AsciiImg *restrict img, const char *restrict path, struct Font *restrict font);

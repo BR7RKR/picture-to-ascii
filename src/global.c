@@ -1,7 +1,7 @@
-#include "global.h"
 #include <math.h>
-#include <stdio.h>
 #include <string.h>
+
+#include "global.h"
 
 const int MAX_BRIGHTNESS = 255;
 
@@ -10,7 +10,7 @@ bool is_equalf(float first, float second){
     return fabsf(first - second) <= epsilon * fmaxf(fabsf(first), fabsf(second));
 }
 
-FileType get_file_extension(const char *path_to_file){
+FileType get_file_extension(const char *restrict path_to_file){
     if (!path_to_file) {
         return FILE_NAF;
     }

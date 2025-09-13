@@ -1,14 +1,14 @@
-#include "global.h"
-#include "ascii_img.h"
-#include "stb_image_write.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <turbojpeg.h>
 
-int write_gray_jpg(const char *path, int width, int height, unsigned char *buffer);
+#include "global.h"
+#include "ascii_img.h"
+#include "stb_image_write.h"
 
-struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height){
+static int write_gray_jpg(const char *restrict path, int width, int height, unsigned char *restrict buffer);
+
+struct AsciiImg *AsciiImg_create(const char *restrict data, size_t width, size_t height){
     if (!data) {
         return NULL;
     }
@@ -21,7 +21,7 @@ struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height){
         return NULL;
     }
     
-    struct AsciiImg *ascii_img = malloc(sizeof(struct AsciiImg));
+    struct AsciiImg *ascii_img = malloc(sizeof(*ascii_img));
     
     if (!ascii_img) {
         return NULL;
@@ -41,7 +41,7 @@ struct AsciiImg *AsciiImg_create(const char *data, size_t width, size_t height){
     return ascii_img;
 }
 
-struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned char *img, size_t width, size_t height){
+struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *restrict cfg, unsigned char *restrict img, size_t width, size_t height){
     if (!cfg) {
         return NULL;
     }
@@ -63,7 +63,7 @@ struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned 
     size_t comp_width  = (size_t)(width * width_scale);
     size_t comp_height = (size_t)(height * height_scale);
     size_t ascii_img_size = comp_width * comp_height * 1;
-    char *ascii_img = calloc(ascii_img_size, sizeof(char));
+    char *restrict ascii_img = calloc(ascii_img_size, sizeof(char));
     
     if (!ascii_img) {
         return NULL;
@@ -91,7 +91,7 @@ struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *cfg, unsigned 
     return ascii;
 }
 
-void AsciiImg_free(struct AsciiImg *img){
+void AsciiImg_free(struct AsciiImg *restrict img){
     if (!img) {
         return;
     }
@@ -106,7 +106,7 @@ void AsciiImg_free(struct AsciiImg *img){
     free(img);
 }
 
-void AsciiImg_print(struct AsciiImg *img){
+void AsciiImg_print(struct AsciiImg *restrict img){
     if (!img) {
         return;
     }
@@ -119,7 +119,7 @@ void AsciiImg_print(struct AsciiImg *img){
     }
 }
 
-int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
+int AsciiImg_save_to_file(struct AsciiImg *restrict img, const char *restrict path){
     if (!img) {
         return ASCII_IMG_ERR_NULL;
     }
@@ -152,7 +152,7 @@ int AsciiImg_save_to_file(struct AsciiImg *img, const char* path){
     return ASCII_IMG_OK;
 }
 
-int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image, struct Font *font){
+int AsciiImg_save_to_file_image(struct AsciiImg *restrict img, const char *restrict path_to_image, struct Font *restrict font){
     if (!img || !font || !font->map) {
         return ASCII_IMG_ERR_NULL;
     }
@@ -161,26 +161,25 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     const size_t img_w = img->width * font->symbol_width;
     const size_t img_h = img->height * font->symbol_height;
 
-    unsigned char *pixels = calloc(img_w * img_h, channels);
+    unsigned char *restrict pixels = calloc(img_w * img_h, channels);
     if (!pixels) return ASCII_IMG_ERR_ALLOC;
 
-    // сколько байт занимает одна строка символа
     size_t bytes_per_row = (font->symbol_width + 7) / 8;
     
     #pragma omp parallel for schedule(static)
     for (size_t y = 0; y < img->height; y++) {
         for (size_t x = 0; x < img->width; x++) {
-            unsigned char c = (unsigned char)img->img[y * img->width + x];
+            unsigned char c = (unsigned char)img->img[y * img->width + x]; // TODO: make tiles for all symbols before this method
 
             if (c >= font->symbols_count) {
-                printf("!!!WARNING!!!!: Unable to find matching symbol in font\n");
+                log_warning("Unable to find matching symbol in font");
                 continue;
             }
 
-            unsigned char *glyph = (unsigned char *)font->map[c];
+            unsigned char *restrict glyph = (unsigned char *)font->map[c];
             
             for (size_t gy = 0; gy < font->symbol_height; gy++) {
-                unsigned char *row_ptr = &glyph[gy * bytes_per_row];
+                unsigned char *restrict row_ptr = &glyph[gy * bytes_per_row];
                 
                 for (size_t gx = 0; gx < font->symbol_width; gx++) {
                     int bit = (row_ptr[gx / 8] >> (7 - (gx % 8))) & 1;
@@ -223,7 +222,7 @@ int AsciiImg_save_to_file_image(struct AsciiImg *img, const char* path_to_image,
     return (!res || res == ASCII_IMG_ERR_FILE_SAVE) ? ASCII_IMG_ERR_FILE_SAVE : ASCII_IMG_OK;
 }
 
-int write_gray_jpg(const char *path, int width, int height, unsigned char *buffer){
+static int write_gray_jpg(const char *restrict path, int width, int height, unsigned char *restrict buffer){
     tjhandle handle = tjInitCompress();
     if (!handle) {
         return ASCII_IMG_ERR;

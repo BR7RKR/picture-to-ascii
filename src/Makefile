@@ -1,9 +1,9 @@
 CC = gcc-15
-CFLAGS = -Wall -Wextra -Werror -fopenmp -g
+CFLAGS = -Wall -Wextra -Werror -fopenmp -g -O2
 
 ################### For memory leak tests #################
 #CC = CC
-#CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+#CFLAGS = -Wall -Wextra -Werror -g -O2 -fsanitize=address
 ###########################################################
 
 TARGET = pictoascii

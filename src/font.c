@@ -5,8 +5,8 @@
 #include "font8x8_latin.h"
 #include "font8x8_basic.h"
 
-struct Font *Font_create(const unsigned char *src, size_t symbols_count, size_t symbol_width, size_t symbol_height){
-    struct Font *font = malloc(sizeof(struct Font));
+struct Font *Font_create(const unsigned char *restrict src, size_t symbols_count, size_t symbol_width, size_t symbol_height){
+    struct Font *font = malloc(sizeof(*font));
     if (!font) {
         return NULL;
     }
@@ -37,7 +37,7 @@ struct Font *Font_create(const unsigned char *src, size_t symbols_count, size_t 
     return font;
 }
 
-void Font_free(struct Font *font){
+void Font_free(struct Font *restrict font){
     if (!font) {
         return;
     }
@@ -63,14 +63,16 @@ struct Font *Font_create_font8x8_basic(void){
 
 struct Font *Font_create_font8x8_latin(void){
     const size_t control_count = 32;
-    const size_t basic_count   = 128;
-    const size_t ext_count     = 96;
-    const size_t total_count   = control_count + basic_count + ext_count;
-    const size_t symbol_width  = 8;
+    const size_t basic_count = 128;
+    const size_t ext_count = 96;
+    const size_t total_count = control_count + basic_count + ext_count;
+    const size_t symbol_width = 8;
     const size_t symbol_height = 8;
 
-    unsigned char *temp = malloc(total_count * symbol_height * ((symbol_width + 7) / 8));
-    if (!temp) return NULL;
+    unsigned char *restrict temp = malloc(total_count * symbol_height * ((symbol_width + 7) / 8));
+    if (!temp) {
+        return NULL;
+    }
 
     for (size_t i = 0; i < control_count; i++){
         memcpy(temp + i * symbol_height, font8x8_control[i], symbol_height);
