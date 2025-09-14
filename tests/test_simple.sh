@@ -26,6 +26,9 @@ echo "Test 5"
 echo "Test 6"
 ../src/pictoascii -i pictures/mememe.jpeg -f outputs/SimpleTest/mememe.txt
 
+echo "Test 7 with useless flag"
+../src/pictoascii -i pictures/cplusplus.png -f outputs/SimpleTest/cplusplus7.txt -fl
+
 echo "Clean"
 make -C ../src clean
 echo "========================= SIMPLE TEST END ==================================="
