@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "global.h"
 #include "font.h"
 #include "font8x8_latin.h"
 #include "font8x8_basic.h"
@@ -8,12 +9,14 @@
 struct Font *Font_create(const unsigned char *restrict src, size_t symbols_count, size_t symbol_width, size_t symbol_height){
     struct Font *font = malloc(sizeof(*font));
     if (!font) {
+        debug("Failed to allocate memory for font");
         return NULL;
     }
 
     font->map = malloc(symbols_count * sizeof(unsigned char *));
     if (!font->map) {
         free(font);
+        debug("Failed to allocate memory for font map");
         return NULL;
     }
 
@@ -27,6 +30,7 @@ struct Font *Font_create(const unsigned char *restrict src, size_t symbols_count
     for (size_t i = 0; i < symbols_count; i++) {
         font->map[i] = malloc(symbol_bytes);
         if (!font->map[i]) {
+            debug("Failed to allocate memory for font maps' symbol bytes");
             Font_free(font);
             return NULL;
         }
@@ -34,6 +38,7 @@ struct Font *Font_create(const unsigned char *restrict src, size_t symbols_count
         memcpy(font->map[i], src + i * symbol_bytes, symbol_bytes);
     }
 
+    debug("Font was created successfully");
     return font;
 }
 
