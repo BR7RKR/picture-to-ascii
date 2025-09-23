@@ -1,5 +1,5 @@
 CC = gcc-15
-CFLAGS = -Wall -Wextra -Werror -fopenmp -g -O2
+CFLAGS = -Wall -Wextra -Werror -fopenmp -g -O2 #-DRELEASE flag for release
 
 ################### For memory leak tests #################
 #CC = CC

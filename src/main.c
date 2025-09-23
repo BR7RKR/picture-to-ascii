@@ -27,6 +27,8 @@ int main(int argc, char *restrict argv[]){
         log_error("wrong amount of arguments.\nUse --help or -h flag to get more information");
         return PTS_ERR_NOT_ENOUGH_ARGS;
     }
+
+    int result = ASCII_IMG_OK;
     
     struct Font *font = NULL;
     
@@ -58,32 +60,44 @@ int main(int argc, char *restrict argv[]){
             is_print_to_console = true;
         } else if (strcmp(argv[i], "-f") == 0 || strcmp(argv[i], "--file") == 0) {
             if (argc <= i+1) {
-                log_error("not enough args");
+                log_error("Not enough args");
                 return PTS_ERR_NOT_ENOUGH_ARGS;
             }
             
             path_to_save = argv[i+1];
         } else if (strcmp(argv[i], "-ws") == 0 || strcmp(argv[i], "--width-scale") == 0) {
             if (argc <= i+1) {
-                log_error("not enough args");
+                log_error("Not enough args");
                 return PTS_ERR_NOT_ENOUGH_ARGS;
             }
             
             int result = float_parse(argv[i+1], &width_scale);
             if (result == PTS_ERR_FLOAT_PARSE) {
-                log_error("failed to parse float");
+                log_error("Failed to parse float");
                 return result;
+            }
+
+            if (is_equalf(width_scale, 0) || width_scale < 0)
+            {
+                log_error("Width scale is negative or zero");
+                return PTS_ERR_NEGATIVE_ZERO;
             }
         } else if (strcmp(argv[i], "-hs") == 0 || strcmp(argv[i], "--height-scale") == 0) {
             if (argc <= i+1) {
-                log_error("not enough args");
+                log_error("Not enough args");
                 return PTS_ERR_NOT_ENOUGH_ARGS;
             }
             
             int result = float_parse(argv[i+1], &height_scale);
             if (result == PTS_ERR_FLOAT_PARSE) {
-                log_error("failed to parse float");
+                log_error("Failed to parse float");
                 return result;
+            }
+
+            if (is_equalf(height_scale, 0) || height_scale < 0)
+            {
+                log_error("Height scale is negative or zero");
+                return PTS_ERR_NEGATIVE_ZERO;
             }
         } else if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--symbols") == 0) {
             if (argc <= i+1) {
@@ -95,7 +109,7 @@ int main(int argc, char *restrict argv[]){
             ascii_chars_size = strlen(ascii_chars)-1; // -1 is used to avoid \0
         } else if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--image") == 0) {
             if (argc <= i+1) {
-                log_error("not enough args");
+                log_error("Not enough args");
                 return PTS_ERR_NOT_ENOUGH_ARGS;
             }
 
@@ -110,7 +124,7 @@ int main(int argc, char *restrict argv[]){
     }
     
     if (!path_to_img) {
-        log_error("path must be provided");
+        log_error("Path must be provided");
         print_help();
         return PTS_ERR_IMG_PATH;
     }
@@ -158,25 +172,20 @@ int main(int argc, char *restrict argv[]){
     
     if (is_print_to_console) {
         AsciiImg_print(ascii_img);
-        log_info("ascii image was printed successfully");
     }
     
-    int result = ASCII_IMG_OK;
     if (path_to_save) {
         font = is_latin_font ? Font_create_font8x8_latin() : Font_create_font8x8_basic();
         result = AsciiImg_save_to_file(ascii_img, path_to_save, font);
-        if (result != ASCII_IMG_OK) {
-            log_error("failed to save ascii image to file");
-        } else {
-            log_info("ascii image was saved successfully");
-        }
     }
     
+    log_info("Cleaning all the resources...");
     stbi_image_free(img);
     AsciiImg_free(ascii_img);
     free(temp_ascii_chars);
     Font_free(font);
-
+    
+    log_info("Program is over");
     return result;
 }
 
@@ -184,6 +193,7 @@ static char* str_rev(const char *restrict in_str) {
     size_t len = strlen(in_str);
     char *out_str = calloc(len + 1, sizeof(char)); // +1 for '\0'
     if (!out_str) {
+        debug("Failed to allocate memory for the out_str");
         return NULL;
     }
 
@@ -216,18 +226,22 @@ static void print_help(void){
 
 static CompCode float_parse(const char *restrict str, float *restrict out_value){
     errno = 0;
-    float number = strtof(str, NULL);
+    char *endptr;
+    float number = strtof(str, &endptr);
     *out_value = 0;
+
+    if (endptr == str) {
+        debug("Failed to parse float: no digits");
+        return PTS_ERR_FLOAT_PARSE;
+    }
+
+    if (*endptr != '\0') {
+        debug("Failed to parse float: extra characters");
+        return PTS_ERR_FLOAT_PARSE;
+    }
     
     if (errno == ERANGE) {
-        return PTS_ERR_FLOAT_PARSE;
-    }
-    
-    if (is_equalf(number, 0.0f)) {
-        return PTS_ERR_FLOAT_PARSE;
-    }
-    
-    if (number < 0.0f) {
+        debug("Failed to parse float: ERANGE");
         return PTS_ERR_FLOAT_PARSE;
     }
     

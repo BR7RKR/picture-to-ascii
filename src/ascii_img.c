@@ -12,20 +12,24 @@ static AsciiImgResult save_as_txt(struct AsciiImg *restrict img, const char *res
 
 struct AsciiImg *AsciiImg_create(const char *restrict data, size_t width, size_t height){
     if (!data) {
+        debug("Data is null");
         return NULL;
     }
     
     if (!width) {
+        debug("Width is null");
         return NULL;
     }
     
     if (!height) {
+        debug("Height is null");
         return NULL;
     }
     
     struct AsciiImg *ascii_img = malloc(sizeof(*ascii_img));
     
     if (!ascii_img) {
+        log_error("Failed to allocate memory for the ascii_img");
         return NULL;
     }
     
@@ -34,29 +38,35 @@ struct AsciiImg *AsciiImg_create(const char *restrict data, size_t width, size_t
     ascii_img->img = calloc(width * height, sizeof(char));
     
     if (!ascii_img->img) {
+        log_error("Failed to allocate memory for the ascii_img->img");
         AsciiImg_free(ascii_img);
         return NULL;
     }
     
     memcpy(ascii_img->img, data, width * height * sizeof(char));
     
+    log_info("AsciiImg was created successfully");
     return ascii_img;
 }
 
 struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *restrict cfg, unsigned char *restrict img, size_t width, size_t height){
     if (!cfg) {
+        debug("Cfg is null");
         return NULL;
     }
     
     if (!img) {
+        debug("Img is null");
         return NULL;
     }
     
     if (width <= 0) {
+        debug("Width is null");
         return NULL;
     }
     
     if (height <= 0) {
+        debug("Height is null");
         return NULL;
     }
     
@@ -68,6 +78,7 @@ struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *restrict cfg, 
     char *restrict ascii_img = calloc(ascii_img_size, sizeof(char));
     
     if (!ascii_img) {
+        log_error("Failed to allocate memory for the ascii_img pixels");
         return NULL;
     }
 
@@ -90,6 +101,7 @@ struct AsciiImg *AsciiImg_create_from_img(struct ConverterConfig *restrict cfg, 
     struct AsciiImg *ascii = AsciiImg_create(ascii_img, comp_width, comp_height);
     
     free(ascii_img);
+    log_info("AsciiImg was created successfully from image file");
     return ascii;
 }
 
@@ -110,6 +122,7 @@ void AsciiImg_free(struct AsciiImg *restrict img){
 
 void AsciiImg_print(struct AsciiImg *restrict img){
     if (!img) {
+        debug("Img is null");
         return;
     }
     
@@ -119,11 +132,13 @@ void AsciiImg_print(struct AsciiImg *restrict img){
         }
         putchar('\n');
     }
+    log_info("Ascii image was printed successfully");
 }
 
 AsciiImgResult AsciiImg_save_to_file(struct AsciiImg *restrict img, const char *restrict path_to_save, struct Font *restrict font){
     if (!img || !path_to_save)
     {
+        log_error("AsciiImg or path is null");
         return ASCII_IMG_ERR_NULL;
     }
     
@@ -149,12 +164,15 @@ AsciiImgResult AsciiImg_save_to_file(struct AsciiImg *restrict img, const char *
 
 AsciiImgResult save_as_txt(struct AsciiImg *restrict img, const char *restrict path){
     if (!img || !path) {
+
+        log_error("AsciiImg or path is null");
         return ASCII_IMG_ERR_NULL;
     }
     
     FILE *save_file = fopen(path, "wb");
     
     if (!save_file) {
+        log_error("Unable to open file for writing");
         return ASCII_IMG_ERR_FILE_FOPEN;
     }
     
@@ -163,28 +181,32 @@ AsciiImgResult save_as_txt(struct AsciiImg *restrict img, const char *restrict p
             int res = putc(img->img[y * img->width + x], save_file);
             
             if (res == EOF) {
+                fclose(save_file);
+                debug("Failed to save image as text in x loop");
                 return ASCII_IMG_ERR_EOF;
             }
         }
         int res = putc('\n', save_file);
         
         if (res == EOF) {
+            fclose(save_file);
+            debug("Failed to save image as text in y loop");
             return ASCII_IMG_ERR_EOF;
         }
     }
     
-    if (save_file) {
-        if (fclose(save_file) != 0)
-        {
-            return ASCII_IMG_ERR_FCLOSE;
-        }
+    if (fclose(save_file) != 0) {
+        log_error("Failed to close txt file");
+        return ASCII_IMG_ERR_FCLOSE;
     }
     
+    log_info("AsciiImg was saved as txt file");
     return ASCII_IMG_OK;
 }
 
 AsciiImgResult save_as_image(struct AsciiImg *restrict img, const char *restrict path_to_image, struct Font *restrict font){
     if (!img || !font || !font->map) {
+        log_error("AsciiImg or font is null");
         return ASCII_IMG_ERR_NULL;
     }
 
@@ -194,6 +216,7 @@ AsciiImgResult save_as_image(struct AsciiImg *restrict img, const char *restrict
 
     unsigned char *restrict pixels = calloc(img_w * img_h, channels);
     if (!pixels) {
+        log_error("Unable to allocate memory for image pixels");
         return ASCII_IMG_ERR_ALLOC;
     }
 
@@ -232,20 +255,29 @@ AsciiImgResult save_as_image(struct AsciiImg *restrict img, const char *restrict
 
     switch (fileType) {
         case FILE_JPEG:
+            log_info("Saving AsciiImg as jpeg...");
             res = write_gray_jpg(path_to_image, (int)img_w, (int)img_h, pixels);
+            log_info("Saved AsciiImg as jpeg");
             break;
         case FILE_PNG:
+            log_info("Saving AsciiImg as png...");
             res = stbi_write_png(path_to_image, (int)img_w, (int)img_h, channels, pixels, (int)img_w * channels);
+            log_info("Saved AsciiImg as png");
             break;
         case FILE_TGA:
+            log_info("Saving AsciiImg as tga...");
             res = stbi_write_tga(path_to_image, (int)img_w, (int)img_h, channels, pixels);
+            log_info("Saved AsciiImg as tga");
             break;
         case FILE_BMP:
+            log_info("Saving AsciiImg as bmp...");
             res = stbi_write_bmp(path_to_image, (int)img_w, (int)img_h, channels, pixels);
+            log_info("Saved AsciiImg as bmp");
             break;
         case FILE_TXT:
         case FILE_NAF:
         default:
+            log_error("Failed to save AsciiImg as image file");
             res = ASCII_IMG_ERR_FILE_SAVE;
             break;
     }

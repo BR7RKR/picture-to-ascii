@@ -12,6 +12,7 @@ bool is_equalf(float first, float second){
 
 FileType get_file_extension(const char *restrict path_to_file){
     if (!path_to_file) {
+        debug("Path is null");
         return FILE_NAF;
     }
     
@@ -19,14 +20,17 @@ FileType get_file_extension(const char *restrict path_to_file){
     char *ext = ++dot;
     
     if (strcmp(ext, "txt") == 0) {
+        debug("Path is txt file");
         return FILE_TXT;
     }
     
     if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
+        debug("Path is jpeg file");
         return FILE_JPEG;
     }
     
     if (strcmp(ext, "png") == 0) {
+        debug("Path is png file");
         return FILE_PNG;
     }
     
@@ -34,15 +38,18 @@ FileType get_file_extension(const char *restrict path_to_file){
         || strcmp(ext, "icb") == 0
         || strcmp(ext, "vda") == 0
         || strcmp(ext, "vst") == 0) {
-        return FILE_TGA;
+            debug("Path is tga file");
+            return FILE_TGA;
     }
     
     if (strcmp(ext, "bmp") == 0
         || strcmp(ext, "dip") == 0
         || strcmp(ext, "rle") == 0) {
-        return FILE_BMP;
+            debug("Path is bmp file");
+            return FILE_BMP;
     }
     
+    debug("Path is not a file");
     return FILE_NAF;
 }
 
