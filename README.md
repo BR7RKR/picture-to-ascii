@@ -154,3 +154,48 @@ This flag extends basic font with latin characters. It works in pair with '-f' f
 * Improve flags handling
 * Add a compression option to compress the initial image.
 * Create a cross-platform console application.
+
+## Installation
+
+### MacOS (arm64)
+
+Homebrew approach:
+
+*Homebrew will make the application global so it can be run from anywhere.*
+
+1. Add Tap to the repo with my homebrew app
+
+```bash
+brew tap hakari/tap https://github.com/BR7RKR/homebrew-picture-to-ascii
+```
+
+2. Install the app
+
+```bash
+brew install --cask pictoascii
+```
+
+3. My app doesn’t have an Apple digital signature, so it will need to be marked as safe with the following command
+```bash
+xattr -d com.apple.quarantine /opt/homebrew/bin/pictoascii
+```
+
+4. Run app with the --help flag to check if it works
+
+Manual approach (not recommended):
+1. Go to releases and find `.tar.gz` file there
+2. Download this file
+3. Double tap the file to get the app
+4. Run terminal and write the following command
+```bash
+sudo xattr -r -d com.apple.quarantine ./pictoascii
+```
+ 5. Run app with the --help flag to check if it works
+
+### Windows
+
+Coming soon...
+
+#### Linux
+
+Coming soon...
