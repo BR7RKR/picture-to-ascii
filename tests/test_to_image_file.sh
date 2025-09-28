@@ -19,13 +19,13 @@ echo "Test 3"
 ../src/pictoascii --image pictures/cimg.png -l -f outputs/ToImageFile/cimg3.png
 
 echo "Test 4"
-../src/pictoascii -i pictures/mememe.jpeg -file outputs/ToImageFile/mememe4.jpg -l -r
+../src/pictoascii -i pictures/mememe.jpeg --file outputs/ToImageFile/mememe4.jpg -l -r
 
 echo "Test 5"
-../src/pictoascii -i pictures/mememe.jpeg -file outputs/ToImageFile/mememe5.tga
+../src/pictoascii -i pictures/mememe.jpeg --file outputs/ToImageFile/mememe5.tga
 
 echo "Test 6"
-../src/pictoascii -i pictures/mememe.jpeg -file outputs/ToImageFile/mememe6.bmp
+../src/pictoascii -i pictures/mememe.jpeg --file outputs/ToImageFile/mememe6.bmp
 
 echo "Test 7"
 ../src/pictoascii --image pictures/cimg.png -f outputs/ToImageFile/cimg7.jpeg

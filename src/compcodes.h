@@ -13,5 +13,6 @@ typedef enum {
     PTS_ERR_IMG_READ = -4,          // Failed to read the image
     PTS_ERR_CONVERT = -100,         // Failed to convert the img to ascii
     PTS_ERR_SAVE_TXT = -33,         // Failed to save ascii img as txt file
-    PTS_ERR_NEGATIVE_ZERO = -331    // Value is negative or zero
+    PTS_ERR_NEGATIVE_ZERO = -331,   // Value is negative or zero
+    PTS_ERR_UNKNOWN_FLAG = -7404
 } CompCode;
