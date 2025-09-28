@@ -1050,3 +1050,6 @@ pictoascii
 
 # Outputs
 tests/outputs/*
+
+#Builds
+*.tar.gz

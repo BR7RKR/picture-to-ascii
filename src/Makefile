@@ -1,5 +1,6 @@
 CC = gcc-15
-CFLAGS = -Wall -Wextra -Werror -fopenmp -g -O2 #-DRELEASE flag for release
+CFLAGS = -Wall -Wextra -Werror -fopenmp -g
+СFLAGS_RELEASE = -Wall -Wextra -Werror -fopenmp -O2 -DRELEASE
 
 ################### For memory leak tests #################
 #CC = CC
@@ -19,6 +20,9 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(TARGET)
 
+release: CFLAGS=$(CFLAGS_RELEASE)
+release: clean $(TARGET)
+
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
@@ -34,4 +38,4 @@ clean:
 test:
 	cd ../tests && ./test.sh
 
-.PHONY: all clean test
+.PHONY: all clean test release

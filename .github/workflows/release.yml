@@ -1,0 +1,54 @@
+name: Build C App
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install gcc libjpeg-turbo
+
+      - name: Build
+        run: |
+          cd ./src
+          make release
+
+      - name: Package
+        run: |
+          cd ./src
+          tar czf pictoascii-macos-arm64.tar.gz pictoascii
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-macos
+          path: src/pictoascii-macos-arm64.tar.gz
+          retention-days: 1
+
+  release:
+    needs: [build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pictoascii-macos
+
+      - name: Create release and upload files to it
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: pictoascii-macos-arm64.tar.gz
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
