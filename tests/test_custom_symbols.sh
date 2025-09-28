@@ -1,4 +1,3 @@
-# Tests for personal use. They work on MacOs.
 # To make script runnable write "chmod +x ./script_name.sh"
 set -e
 
@@ -7,6 +6,7 @@ echo "========================= CUSTOM SYMBOLS =================================
 echo "Setup"
 make -C ../src clean all
 rm -f outputs/CustomSymbols/*
+mkdir -p outputs/CustomSymbols
 
 echo "Test 1"
 ../src/pictoascii --print --image pictures/cimg.png --file outputs/CustomSymbols/cimg1.txt --symbols " .:-=+*#%@"

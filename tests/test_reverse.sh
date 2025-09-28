@@ -1,4 +1,3 @@
-# Tests for personal use. They work on MacOs.
 # To make script runnable write "chmod +x ./script_name.sh"
 set -e
 
@@ -6,6 +5,8 @@ set -e
 echo "========================= TEST REVERSE SYMBOLS ==================================="
 echo "Setup"
 make -C ../src clean all
+rm -f outputs/ReverseSymbols/*
+mkdir -p outputs/ReverseSymbols
 
 echo "Test 1"
 ../src/pictoascii -p --image pictures/cimg.png -r --file outputs/ReverseSymbols/cimg1.txt

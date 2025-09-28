@@ -1,4 +1,3 @@
-# Tests for personal use. They work on MacOs.
 # To make script runnable write "chmod +x ./script_name.sh"
 set -e
 
@@ -7,6 +6,7 @@ echo "========================= CUSTOM SCALES ==================================
 echo "Setup"
 make -C ../src clean all
 rm -f outputs/CustomScales/*
+mkdir -p outputs/CustomScales
 
 echo "Test 1"
 ../src/pictoascii --print --image pictures/cimg.png --file outputs/CustomScales/cimg1.txt

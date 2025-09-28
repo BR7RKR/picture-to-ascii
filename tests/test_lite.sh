@@ -1,4 +1,3 @@
-# Tests for personal use. They work on MacOs.
 # To make script runnable write "chmod +x ./script_name.sh"
 set -e
 
@@ -7,6 +6,7 @@ echo "========================= LITE ==================================="
 echo "Setup"
 make -C ../src clean all
 rm -f outputs/Lite/*
+mkdir -p outputs/Lite
 
 echo "Test 1"
 ../src/pictoascii -p -i pictures/4kpicture.jpg -f outputs/Lite/4kpicture.txt -l
