@@ -6,6 +6,34 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install MinGW
+        run: choco install mingw -y
+
+      - name: Add MinGW to PATH
+        shell: powershell
+        run: |
+          $mingwPath = "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin"
+          [Environment]::SetEnvironmentVariable("PATH", "$mingwPath;" + $env:PATH, "Process")
+
+      - name: Build
+        run: |
+          cd ./src
+          make release
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-windows
+          path: src/pictoascii.exe
+          retention-days: 1
+
   build-macos:
     runs-on: macos-latest
     
@@ -35,7 +63,7 @@ jobs:
           retention-days: 1
 
   release:
-    needs: [build-macos]
+    needs: [build-windows, build-macos]
     runs-on: ubuntu-latest
     steps:
       - name: Download macOS artifact
@@ -47,8 +75,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          files: pictoascii-macos-arm64.tar.gz
+          files: |
+            src/pictoascii.exe
+            src/pictoascii-macos-arm64.tar.gz
           overwrite_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

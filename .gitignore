@@ -1053,3 +1053,4 @@ tests/outputs/*
 
 #Builds
 *.tar.gz
+*/build
