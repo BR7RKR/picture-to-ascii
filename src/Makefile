@@ -3,7 +3,7 @@
 ###########################
 ifeq ($(OS),Windows_NT)
     SHELL := C:/Program\ Files/Git/bin/bash.exe
-    CC = C:/msys64/mingw64/bin/gcc.exe
+    CC = gcc
     FIND = C:/msys64/usr/bin/find.exe
     RM = C:/msys64/usr/bin/rm.exe -f
     DEL_DIR = C:/msys64/usr/bin/rm.exe -rf
