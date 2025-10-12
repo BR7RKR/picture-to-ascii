@@ -8,6 +8,7 @@ echo "========================= TEST TO IMAGE FILE =============================
 echo "Setup"
 make -C ../src clean all
 rm -f outputs/ToImageFile/*
+mkdir -p outputs/ToImageFile
 
 echo "Test 1"
 ../src/pictoascii -i pictures/4kpicture.jpg -l -f outputs/ToImageFile/4kpicture1.jpg

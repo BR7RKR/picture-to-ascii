@@ -7,6 +7,7 @@ echo "========================= LITE ==================================="
 echo "Setup"
 make -C ../src clean all
 rm -f outputs/Lite/*
+mkdir -p outputs/Lite
 
 echo "Test 1"
 ../src/pictoascii -p -i pictures/4kpicture.jpg -f outputs/Lite/4kpicture.txt -l
