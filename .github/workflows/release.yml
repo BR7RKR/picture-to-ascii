@@ -13,25 +13,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install MinGW
-        run: choco install mingw -y
-
-      - name: Add MinGW to PATH
-        shell: powershell
-        run: |
-          $mingwPath = "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin"
-          [Environment]::SetEnvironmentVariable("PATH", "$mingwPath;" + $env:PATH, "Process")
-
-      - name: Install vcpkg
-        run: |
-          git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
-          C:\vcpkg\bootstrap-vcpkg.bat
-
-      - name: Install libjpeg-turbo
-        run: |
-          C:\vcpkg\vcpkg install libjpeg-turbo:x64-windows
-          setx VCPKG_ROOT C:\vcpkg
-
+      - name: Install MSYS2 + MinGW + libjpeg-turbo
+        uses: msys2/setup-msys2@v3
+        with:
+          update: true
+          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-libjpeg-turbo
+      
       - name: Build
         run: |
           cd ./src
@@ -58,8 +45,6 @@ jobs:
       - name: Build
         run: |
           cd ./src
-          set "CFLAGS=-I%C:\vcpkg\installed\x64-windows\include%"
-          set "LDFLAGS=-L%C:\vcpkg\installed\x64-windows\lib% -lturbojpeg"
           make release
 
       - name: Package
