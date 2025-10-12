@@ -58,6 +58,8 @@ jobs:
       - name: Build
         run: |
           cd ./src
+          set "CFLAGS=-I%C:\vcpkg\installed\x64-windows\include%"
+          set "LDFLAGS=-L%C:\vcpkg\installed\x64-windows\lib% -lturbojpeg"
           make release
 
       - name: Package
