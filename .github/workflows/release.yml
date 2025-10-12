@@ -82,8 +82,8 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            src/pictoascii.exe
-            src/pictoascii-macos-arm64.tar.gz
+            pictoascii.exe
+            pictoascii-macos-arm64.tar.gz
           overwrite_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
