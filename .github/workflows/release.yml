@@ -20,6 +20,7 @@ jobs:
           install: mingw-w64-x86_64-gcc mingw-w64-x86_64-libjpeg-turbo
       
       - name: Build
+        shell: msys2 {0} 
         run: |
           cd ./src
           make release
