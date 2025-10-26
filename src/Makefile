@@ -13,7 +13,7 @@ ifeq ($(OS),Windows_NT)
     LIB_BASE = C:/msys64/mingw64/lib
     CFLAGS = $(CFLAGS_BASE_DEBUG) -mconsole
 else
-    ifeq ($(OS),Darwin) # macOs
+    ifeq ($(shell uname),Darwin) # macOs
         CC = gcc-15
         INC_BASE = /opt/homebrew/include
         LIB_BASE = /opt/homebrew/lib
