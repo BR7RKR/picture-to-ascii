@@ -1,6 +1,8 @@
 ###########################
 # Detect OS
 ###########################
+CFLAGS_BASE = -Wall -Wextra -Werror -fopenmp
+CFLAGS_BASE_DEBUG = $(CFLAGS_BASE) -g
 ifeq ($(OS),Windows_NT)
     SHELL := C:/Program\ Files/Git/bin/bash.exe
     CC = gcc
@@ -9,20 +11,26 @@ ifeq ($(OS),Windows_NT)
     DEL_DIR = C:/msys64/usr/bin/rm.exe -rf
     INC_BASE = C:/msys64/mingw64/include
     LIB_BASE = C:/msys64/mingw64/lib
-    CFLAGS = -Wall -Wextra -Werror -fopenmp -g -mconsole
+    CFLAGS = $(CFLAGS_BASE_DEBUG) -mconsole
 else
-    CC = gcc-15
+    ifeq ($(OS),Darwin) # macOs
+        CC = gcc-15
+        INC_BASE = /opt/homebrew/include
+        LIB_BASE = /opt/homebrew/lib
+    else
+        CC = gcc
+        INC_BASE = /usr/local/include
+        LIB_BASE = /usr/local/lib
+    endif
+    CFLAGS = $(CFLAGS_BASE_DEBUG)
     FIND = find
     RM = rm -f
     DEL_DIR = rm -rf
-    INC_BASE = /opt/homebrew/include
-    LIB_BASE = /opt/homebrew/lib
-    CFLAGS = -Wall -Wextra -Werror -fopenmp -g
 endif
 
-CFLAGS_RELEASE = -Wall -Wextra -Werror -fopenmp -O2 -DRELEASE
+CFLAGS_RELEASE = $(CFLAGS_BASE) -O2 -DRELEASE
 
-################### For memory leak tests #################
+################### For memory leak tests macOs #################
 #CC = CC
 #CFLAGS = -Wall -Wextra -Werror -g -O2 -fsanitize=address
 ###########################################################
@@ -34,7 +42,7 @@ LIBSDIR = libs
 INCDIRS := $(shell $(FIND) $(LIBSDIR) -type d 2>/dev/null)
 INCFLAGS := $(patsubst %,-I%,$(INCDIRS)) -I$(INC_BASE)
 
-LDFLAGS = -L$(LIB_BASE) -lturbojpeg
+LDFLAGS = -L$(LIB_BASE) -lturbojpeg -lm
 
 SRCS = $(wildcard *.c */*.c)
 OBJS = $(SRCS:.c=.o)
