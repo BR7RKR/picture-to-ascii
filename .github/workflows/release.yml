@@ -94,40 +94,40 @@ jobs:
           retention-days: 1
 
   build-linux-fedora:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  container:
-    image: fedora:42
+    container:
+      image: fedora:42
 
-  steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        dnf install -y gcc make pkgconf-pkg-config turbojpeg-devel
+      - name: Install dependencies
+        run: |
+          dnf install -y gcc make pkgconf-pkg-config turbojpeg-devel
 
-    - name: Build release
-      run: |
-        cd src
-        make release
+      - name: Build release
+        run: |
+          cd src
+          make release
 
-    - name: Test run
-      run: |
-        cd src
-        ./pictoascii --help
+      - name: Test run
+        run: |
+          cd src
+          ./pictoascii --help
 
-    - name: Package
-      run: |
-        cd src
-        tar czf pictoascii-fedora.tar.gz pictoascii
+      - name: Package
+        run: |
+          cd src
+          tar czf pictoascii-fedora.tar.gz pictoascii
 
-    - name: Upload Linux artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: pictoascii-linux-fedora
-        path: src/pictoascii-linux-fedora.tar.gz
-        retention-days: 1
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-linux-fedora
+          path: src/pictoascii-linux-fedora.tar.gz
+          retention-days: 1
 
 
   release:
