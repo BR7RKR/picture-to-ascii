@@ -1,4 +1,3 @@
-# Tests for personal use. They work on MacOs.
 # To make script runnable write "chmod +x ./script_name.sh"
 set -e
 
