@@ -65,8 +65,6 @@ jobs:
           
   build-linux:
     runs-on: ubuntu-latest
-    container:
-      image: ubuntu:24.04
 
     steps:
       - name: Checkout repo
@@ -74,8 +72,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt update
-          apt install -y build-essential pkg-config libturbojpeg-dev
+          sudo apt update
+          sudo apt install -y build-essential pkg-config libturbojpeg-dev
 
       - name: Verify turbojpeg.h
         run: |
