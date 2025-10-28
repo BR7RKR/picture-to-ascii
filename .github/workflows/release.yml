@@ -62,19 +62,23 @@ jobs:
           name: pictoascii-macos
           path: src/pictoascii-macos-arm64.tar.gz
           retention-days: 1
-
+          
   build-linux:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
-          # Ubuntu / Debian
           sudo apt update
-          sudo apt install -y build-essential libjpeg-turbo8-dev
+          sudo apt install -y build-essential pkg-config libturbojpeg-dev
+
+      - name: Verify turbojpeg.h
+        run: |
+          echo "[CHECK]"
+          find /usr/include -name turbojpeg.h || (echo "turbojpeg.h not found!" && exit 1)
 
       - name: Build
         run: |
@@ -86,12 +90,13 @@ jobs:
           cd ./src
           tar czf pictoascii-linux.tar.gz pictoascii
 
-      - name: Upload macOS artifact
+      - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pictoascii-macos
+          name: pictoascii-linux
           path: src/pictoascii-linux.tar.gz
           retention-days: 1
+
 
   build-linux-fedora:
     runs-on: ubuntu-latest
