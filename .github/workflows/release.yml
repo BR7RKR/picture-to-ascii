@@ -65,6 +65,8 @@ jobs:
           
   build-linux:
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:24.04
 
     steps:
       - name: Checkout repo
