@@ -1,4 +1,5 @@
-# Tests for personal use. They work on MacOs.
+#!/bin/bash
+# To make script runnable: chmod +x ./test.sh
 set -e
 set -u
 

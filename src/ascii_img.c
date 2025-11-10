@@ -293,8 +293,13 @@ static AsciiImgResult write_gray_jpg(const char *restrict path, int width, int h
         return ASCII_IMG_ERR;
     }
     
+
+#if defined(TJ_NUMINIT) // Api version > 3.1
     int result = tj3SaveImage8(handle, path, buffer, width, 0, height, TJPF_GRAY);
-    
+#else
+    int result = tjSaveImage(path, buffer, width, 0, height, TJPF_GRAY, TJFLAG_FASTDCT);
+#endif
+
     tjDestroy(handle);
     if (result == 0) {
         return ASCII_IMG_OK_TURBO_JPEG;

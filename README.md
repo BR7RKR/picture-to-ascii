@@ -18,51 +18,39 @@ More info about input and output in the flags section.
 
 ## Example ascii image
 ```bash
-.'`,,.',,^'.,,'',,''',,.',,.'",,'.,,`'',,'',,.'^,,'.,,.',,"'.,,.'`,,'',,.'","'.,,'',,`'.,,.'",
-``^""``""^``""``""```""``""``^""``""```""``""``^""``""``""^``""``^""``""``"""``""``""^``""``^"
-,,"..,,..^,,..,,..,,"..,,..,,`..,,..",,..,,..,,^..,,..,,..`,,..,,"..,,..,,'.',,..,,..",,..,,`.
-''`,,'',,"'.,,'',,''`,,.',,.'",,'.,,`'',,'';dwwwwwb,,,.',,"'.,,.'`,,'',,.'","'.,,'',,^'.,,.'",
-,,"'.,,.'^,,'',,.'","'.,,'',,`'.,,.'",,.<qwwwwwwwwwwwwt"''`,,'',,"'.,,'.,,`'',,'',,.'",,'',,`'
-''`,,'',,^'.,,'',,''`,,.',,.'",,'',,.dwwwwwwwwwwwwwwwwwwwp`'.,,.'`,,'',,.'","'.,,'',,^'.,,.'",
-,,"'.,,.'^,,'',,.'","'.,,'',,`'.,[pwwwwwwwwwwwwwwwwwwwwwwwwwqv.,,"'.,,'.,,`'',,'',,.'",,'',,`'
-''`,,'',,^'.,,'',,''`,,.',,.'`Ywwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwd",,'',,.'","'.,,'',,^'.,,.'",
-,,"..,,..^,,..,,..,,"..,,.'pwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq["..,,'.',,..,,..",,..,,`.
-''`""''""^''""''""`'`""<qwwwwwwwwwwwwwwwwwwqpdpQpdpqwwwwwwwwwwwwwwwwwwwY.'"""''""''""^''""''""
-''`""''""^''""''""`.bwwwwwwwwwwwwwwwwp{""''""''^""''""''[dwwwwwwwwwwwwwwwwq;"`'""''""^''""''""
-,,"..,,..^,,..,,_pwwwwwwwwwwwwwwwwU.",,..,,..,,^..,,..,,..`,vqwwwwwwwwwwwwwwwwq.',,..",,..,,`.
-''`,,'',,"'.,,.dwwwwwwwwwwwwwwwb..,,`'',,'',,.'^,,'',,.',,"'.,"qwwwwwwwwwwwwwwwp"'',,^'.,,.'",
-,,"'.,,.'^,,''"qwwwwwwwwwwwwwd..,,.'",,'.,,'',,^'.,,'',,''`,,'',"Zwwwwwwwwwwwwwq.,,.'",,'',,`'
-''`,,'',,^'.,,.qwwwwwwwwwwwq"",,'',,`'',,..Upqwwwqpq;".',,"'.,,.'`"qwwwwwwwwwwwq"'',,^'.,,.'",
-,,"'.,,.'^,,''"qwwwwwwwwwwq,,`'.,,.'","dwwwwwwwwwwwwwwwp.'`,,'',,"'.qwwwwwwwwwwq.,,.'^,,'',,`'
-''`,,'',,"'.,,.qwwwwwwwwwd".'",,'',,.wwwwwwwwwwwwwwwwwwwww"'.,,..<wwwwwwwwwwwwwq"'',,^'.,,.'",
-,,"..,,..^,,.."qwwwwwwwww..,,`..,,.dwwwwwwwwwwwwwwwwwwwwwwwp,.dwwwwwwwwwwwwwwwwq.,,..",,..,,`.
-``^""``""^``"".qwwwwwwww}""``^""`'dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq```""^``""``^"
-..`,,..,,^..,,.qwwwwwwww.,,..",,.dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq"..,,`..,,..",
-,,"'.,,.'^,,'."qwwwwwwwq,.',,`'."qwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq.,,.'",,..,,`'
-..`,,..,,"..,,.qwwwwwwwp.,,..",,.wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq"..,,^..,,..",
-,,"'.,,.'^,,''"qwwwwwwwq,'',,`'."wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq.,,.'",,'',,`'
-''`,,'',,^'.,,.qwwwwwwww.,,.'",,'dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq"'',,^'.,,.'",
-,,"'.,,.'^,,''"qwwwwwwww['',,`'.,"pwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwq.,,.'",,'',,`'
-''`,,'',,^'.,,.qwwwwwwwwq,,.'",,'',pwwwwwwwwwwwwwwwwwwwwwwwq.;qwwwwwwwwwwwwwwwwq"'',,^'.,,.'",
-,,"'.,,.'^,,''"qwwwwwwwwwq',,`'.,,.'"wqwwwwwwwwwwwwwwwwwwwI,,'',^Qwwqwwwwwwwwwwq.,,.'",,'',,`'
-..`,,..,,"..,,.qwwwwwwwwwwp..",,..,,`..pwwwwwwwwwwwwwwwq","..,,..`,,pwwwwwwwwwwq"..,,^..,,..",
-"""''""''^",''"qwwwwwwwwwwwq"`''""''"""''"Idpwwwwwqdl.,"''`",'',"".pwwwwwwwwwwwq.""''^",'',"`'
-"""`'""'`^""`'^qwwwwwwwwwwwwwZ''""'`"""`'""'`""^`'""``""```""'`""nwwwwwwwwwwwwwq.""'`^""''""``
-..`,,..,,"..,,.pwwwwwwwwwwwwwwwZ..,,`..,,..,,..^,,..,,..,,"..,,vwwwwwwwwwwwwwwwp"..,,^..,,..",
-,,"'.,,.'^,,'',,dwwwwwwwwwwwwwwwwq)'",,'.,,'',,^'.,,'',,''`,[qwwwwwwwwwwwwwwwqZ'',,.'",,'',,`'
-''`,,'',,^'.,,'',,'IqwwwwwwwwwwwwwwwwpI,,'',,.'^,,'',,..Iqwwwwwwwwwwwwwwwwq;"'.,,'',,^'.,,.'",
-,,"'.,,.'^,,'',,.'","'.ZwwwwwwwwwwwwwwwwwwqpdUntnYdpqwwwwwwwwwwwwwwwwwwY",`'',,'',,.'",,'',,`'
-''`,,'',,^'.,,'',,''`,,''"fwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww[.,,.'","'.,,'',,^'.,,.'",
-,,"'.,,.'^,,'',,.'","'.,,'',,!dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwdI'.,,'.,,`'',,'',,.'",,'',,`'
-..`,,..,,"..,,..,,'.',,..,,..",,.qwwwwwwwwwwwwwwwwwwwwwwwwwwqZ"..`,,..,,..",,..,,..,,^..,,..",
-""^``""``^""``""``"""``""``""^``""``;qwwwwwwwwwwwwwwwwwwwq"""``""^``""``""```""``""``^""``""^`
-,,"'.,,.'^,,'.,,.'","'.,,.',,`'.,,.'",,.LwwwwwwwwwwwwwL"''`,,.',,"'.,,'.,,''',,'',,.'^,,..,,`'
-.'`,,..,,"'.,,'',,''',,.',,.'",,'.,,`'',,'.)pwwwwwp},,.',,"'.,,.'`,,'.,,.'","'.,,.',,^'.,,.'",
-,,"'.,,.'^,,'',,.'","'.,,'',,`'.,,.'",,'.,,'.,"'..,,'',,''`,,'',,"'.,,'.,,`'',,'',,.'",,'',,`'
-''`,,'',,^'.,,'',,''`,,.',,.'",,'',,`'',,'',,.'^,,'',,.',,"'.,,.'`,,'',,.'","'.,,'',,^'.,,.'",
+.::::::::::::::::::::::::::.::.:::::.::.:::::.:
+::.:.:.:.::.:.:.:.::.:.:.:.:.::.:.:.::::.:.:.::
+::.:::::.::.:::::.::-######+:::::::::::::::::::
+::.:::::.::.:::::%#############.:::::::::::::::
+::.:.:.:.::.::####################=.::::.:.:.::
+::::::::::%########=::::::::=#########:::::::::
+:::::::.########.::::::::::.::.:########:::::.:
+:::::::.######:::::::.%##%:.::.:::######:::::.:
+:::::::.#####:::::.##########:.:.#######:::::.:
+:::::::.####=::::%######################:::::::
+::.:::::####:::::#######################.:::.::
+::.:::::####:::::#######################.::::::
+::.:::::####=::::%######################.::::::
+::.:::::#####::::.:##########::::#######.::::::
+::::::::######::::::::%###-::::::.######.::::::
+.::.:.:.########.::.:.:.:.:.::.:########:.:.:.:
+::::::::::#########::::::::.:#########:.:::::.:
+:::::::::::::+####################=:.::.:::::.:
+.::.:.:.::::.:.:.##############:.:.:.::.:.:.:.:
+::.:::::.::.:::::.::########::::::::::::::::.::
+::.:::::.::.:::::.::.:.:.::::::::::::::::::::::
 ```
 
-## How to Use
+## How to use
+
+1. [Install](#installation) the app or [build](#how-to-build) it manually.
+
+2. Run `./pictoascii -i path/to/picture -f output/file/path -p` to make ascii art from image, print it to the console and write it to file.
+
+3. Use the `--help` flag to see detailed usage instructions.
+
+## How to build
+
 1. Install a C compiler (you may need to change `CC` in the Makefile to your compiler).
 
 2. Install libjpeg-turbo (api version 3.1 is used here) and change path to the lib in the Makefile (if you have arm64 macos and you've
@@ -79,9 +67,9 @@ If you want to save pictures in an image format it is safe to use any resolution
 
 ## Tests
 There is a `tests` folder containing some tests that can be launched with the `.sh` file. You can use this file to test the program.  
-I use them on macOS, so you may need to modify the script to run it on Linux or Windows.
+Use `make test` to run all tests on any operating system.
 
-P.S. I'll try to make them runnable on other operatings systems.
+**Note:** Test scripts are made for the bash. You'll need to use it to run the scripts.
 
 ## Flags
 
@@ -150,7 +138,63 @@ Use this flag if you want to reverse the ascii chars string.
 ### -fl or --font-latin
 This flag extends basic font with latin characters. It works in pair with '-f' flag when you save as an image.
 
+## Installation
+
+### MacOS (arm64)
+
+Homebrew approach:
+
+*Homebrew will make the application global so it can be run from anywhere.*
+
+1. Add Tap to the repo with my homebrew app
+
+```bash
+brew tap hakari/tap https://github.com/BR7RKR/homebrew-picture-to-ascii
+```
+
+2. Install the app
+
+```bash
+brew install --cask pictoascii
+```
+
+3. My app doesn’t have an Apple digital signature, so it will need to be marked as safe with the following command
+```bash
+xattr -d com.apple.quarantine /opt/homebrew/bin/pictoascii
+```
+
+4. Run app with the --help flag to check if it works
+
+Manual approach (not recommended):
+  1. Go to [releases]("https://github.com/BR7RKR/picture-to-ascii/releases") and find `.tar.gz` file for macOs there;
+  2. Download this file;
+  3. Double tap the file to get the app;
+  4. Run terminal and write the following command;
+  ```bash
+  sudo xattr -r -d com.apple.quarantine ./pictoascii
+  ```
+  5. Run app with the --help flag to check if it works;
+
+### Windows
+
+1. Go to the [releases]("https://github.com/BR7RKR/picture-to-ascii/releases");
+
+2. Download .exe file from any release that has it;
+
+3. If you want to use it from anyware place it in any folder that is in the list of enviromental variables or provide path to the app there;
+
+4. Run app with the --help flag to check if it works;
+
+### Linux
+
+**Note:** `.tar.gz` file for fedora linux has fedora in its name. 
+The other linux file is for debian (ubuntu) but it was not tested.
+
+1. Go to [releases]("https://github.com/BR7RKR/picture-to-ascii/releases") and find `.tar.gz` file for linux there;
+2. Download this file;
+3. Double tap the file to get the app;
+4. Run app with the --help flag to check if it works;
+
 ## Plans for Further Development
 * Improve flags handling
 * Add a compression option to compress the initial image.
-* Create a cross-platform console application.

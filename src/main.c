@@ -18,6 +18,7 @@
 #include "compcodes.h"
 #include "ascii_img.h"
 
+static bool is_flag(const char *restrict in_str);
 static char* str_rev(const char *restrict in_str);
 static CompCode float_parse(const char *restrict str, float *restrict out_value);
 static void print_help(void);
@@ -120,6 +121,9 @@ int main(int argc, char *restrict argv[]){
             is_reverse = true;
         } else if (strcmp(argv[i], "-fl") == 0 || strcmp(argv[i], "--font-latin") == 0) {
             is_latin_font = true;
+        } else if (is_flag(argv[i])){
+            log_error("Unknown flag");
+            return PTS_ERR_UNKNOWN_FLAG;
         }
     }
     
@@ -247,4 +251,17 @@ static CompCode float_parse(const char *restrict str, float *restrict out_value)
     
     *out_value = number;
     return PTS_OK;
+}
+
+static bool is_flag(const char *restrict in_str){
+    if (!in_str)
+    {
+        return false;
+    }
+
+    if (in_str[0] != '-'){
+        return false;
+    }
+    
+    return true;
 }

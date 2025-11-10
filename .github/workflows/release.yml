@@ -1,0 +1,178 @@
+name: Build C App
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install MSYS2 + MinGW + libjpeg-turbo
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-libjpeg-turbo
+            mingw-w64-x86_64-make
+      
+      - name: Build
+        shell: msys2 {0} 
+        run: |
+          cd ./src
+          mingw32-make release
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-windows
+          path: src/pictoascii.exe
+          retention-days: 1
+
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install gcc libjpeg-turbo
+
+      - name: Build
+        run: |
+          cd ./src
+          make release
+
+      - name: Package
+        run: |
+          cd ./src
+          tar czf pictoascii-macos-arm64.tar.gz pictoascii
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-macos
+          path: src/pictoascii-macos-arm64.tar.gz
+          retention-days: 1
+          
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential pkg-config libturbojpeg-dev
+
+      - name: Verify turbojpeg.h
+        run: |
+          echo "[CHECK]"
+          find /usr/include -name turbojpeg.h || (echo "turbojpeg.h not found!" && exit 1)
+
+      - name: Build
+        run: |
+          cd ./src
+          make release
+
+      - name: Test run
+        run: |
+          cd src
+          ./pictoascii --help
+
+      - name: Package
+        run: |
+          cd ./src
+          tar czf pictoascii-linux.tar.gz pictoascii
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-linux
+          path: src/pictoascii-linux.tar.gz
+          retention-days: 1
+
+
+  build-linux-fedora:
+    runs-on: ubuntu-latest
+
+    container:
+      image: fedora:42
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          dnf install -y gcc make pkgconf-pkg-config turbojpeg-devel
+
+      - name: Build release
+        run: |
+          cd src
+          make release
+
+      - name: Test run
+        run: |
+          cd src
+          ./pictoascii --help
+
+      - name: Package
+        run: |
+          cd src
+          tar czf pictoascii-linux-fedora.tar.gz pictoascii
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pictoascii-linux-fedora
+          path: src/pictoascii-linux-fedora.tar.gz
+          retention-days: 1
+
+
+  release:
+    needs: [build-windows, build-macos, build-linux, build-linux-fedora]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pictoascii-windows
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pictoascii-macos
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pictoascii-linux
+
+      - name: Download Linux artifact for Fedora
+        uses: actions/download-artifact@v4
+        with:
+          name: pictoascii-linux-fedora
+
+      - name: Create release and upload files to it
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            pictoascii.exe
+            pictoascii-macos-arm64.tar.gz
+            pictoascii-linux.tar.gz
+            pictoascii-linux-fedora.tar.gz
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
