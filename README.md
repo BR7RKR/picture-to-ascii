@@ -166,14 +166,14 @@ xattr -d com.apple.quarantine /opt/homebrew/bin/pictoascii
 4. Run app with the --help flag to check if it works
 
 Manual approach (not recommended):
-  1. Go to releases and find `.tar.gz` file there
-  2. Download this file
-  3. Double tap the file to get the app
-  4. Run terminal and write the following command
+  1. Go to [releases]("https://github.com/BR7RKR/picture-to-ascii/releases") and find `.tar.gz` file for macOs there;
+  2. Download this file;
+  3. Double tap the file to get the app;
+  4. Run terminal and write the following command;
   ```bash
   sudo xattr -r -d com.apple.quarantine ./pictoascii
   ```
-  5. Run app with the --help flag to check if it works
+  5. Run app with the --help flag to check if it works;
 
 ### Windows
 
@@ -187,9 +187,14 @@ Manual approach (not recommended):
 
 #### Linux
 
-Coming soon...
+**Note:** `.tar.gz` file for fedora linux has fedora in its name. 
+The other linux file is for debian (ubuntu) but it was not tested.
+
+1. Go to [releases]("https://github.com/BR7RKR/picture-to-ascii/releases") and find `.tar.gz` file for linux there;
+2. Download this file;
+3. Double tap the file to get the app;
+4. Run app with the --help flag to check if it works;
 
 ## Plans for Further Development
 * Improve flags handling
 * Add a compression option to compress the initial image.
-* Create a cross-platform console application.
