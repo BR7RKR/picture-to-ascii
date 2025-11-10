@@ -85,6 +85,11 @@ jobs:
           cd ./src
           make release
 
+      - name: Test run
+        run: |
+          cd src
+          ./pictoascii --help
+
       - name: Package
         run: |
           cd ./src
@@ -125,7 +130,7 @@ jobs:
       - name: Package
         run: |
           cd src
-          tar czf pictoascii-fedora.tar.gz pictoascii
+          tar czf pictoascii-linux-fedora.tar.gz pictoascii
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4

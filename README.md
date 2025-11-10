@@ -166,14 +166,14 @@ xattr -d com.apple.quarantine /opt/homebrew/bin/pictoascii
 4. Run app with the --help flag to check if it works
 
 Manual approach (not recommended):
-1. Go to releases and find `.tar.gz` file there
-2. Download this file
-3. Double tap the file to get the app
-4. Run terminal and write the following command
-```bash
-sudo xattr -r -d com.apple.quarantine ./pictoascii
-```
- 5. Run app with the --help flag to check if it works
+  1. Go to releases and find `.tar.gz` file there
+  2. Download this file
+  3. Double tap the file to get the app
+  4. Run terminal and write the following command
+  ```bash
+  sudo xattr -r -d com.apple.quarantine ./pictoascii
+  ```
+  5. Run app with the --help flag to check if it works
 
 ### Windows
 

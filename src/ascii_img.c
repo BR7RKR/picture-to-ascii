@@ -300,7 +300,6 @@ static AsciiImgResult write_gray_jpg(const char *restrict path, int width, int h
     int result = tjSaveImage(path, buffer, width, 0, height, TJPF_GRAY, TJFLAG_FASTDCT);
 #endif
 
-    
     tjDestroy(handle);
     if (result == 0) {
         return ASCII_IMG_OK_TURBO_JPEG;
